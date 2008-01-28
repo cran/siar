@@ -134,18 +134,24 @@ float gammln(float xx)
 double logddirichlet(double *x,double *alpha,int len)
 {
 
-// This function calculates teh log dirichlet density
-double logB=0.0,logdens,sumalpha=0.0,s=0.0;
+//logD <- sum(lgamma(alpha)) - lgamma(sum(alpha))
+//s <- sum((alpha - 1) * log(x))
+//sum(s) - logD)
+
+// This function calculates the log dirichlet density
+double logD=0.0,logdens,sumalpha=0.0,s=0.0;
 int k;
 
 for(k=0;k<len;k++) {
-    s += (alpha[k]-1)*x[k];
+    s += (alpha[k]-1)*log(x[k]);
     sumalpha += alpha[k];
-    logB += gammln(alpha[k]);
+    logD += gammln(alpha[k]);
 }
+logD -= gammln(sumalpha);
 
-logdens = s-logB-gammln(sumalpha);
+logdens = s-logD;
 
 return(logdens);
 
 }
+

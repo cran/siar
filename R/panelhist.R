@@ -1,5 +1,4 @@
-`panelhist` <-
-function(x, ...)
+panelhist <- function(x, ...)
 {
     usr <- par("usr"); on.exit(par(usr))
     par(usr = c(usr[1:2], 0, 1.5) )
@@ -8,4 +7,3 @@ function(x, ...)
     y <- h$counts; y <- y/max(y)
     rect(breaks[-nB], 0, breaks[-1], y, col="blue", ...)
 }
-

@@ -111,6 +111,7 @@ for(k=0;k<*numplants;k++) {
     tempbetapars[0] = alpha[k];
     tempbetapars[1] = beta[k];
     pixp += logddirichlet(tempp,tempbetapars,2);
+
 }
 
 // Get some useful markers
@@ -159,15 +160,15 @@ for(i=0;i<*iterations+1;i++) {
         piyp += GetLik(tempdata,meannew[k],Xsdnew[k],groupsize);
         piyXsd[k] = GetLik(tempdata,meannew[k],Xsdnew[k],groupsize);
     }
+    
     for(k=0;k<*numplants;k++) {
         tempp[0] = pnew[k];
         tempp[1] = 1-pnew[k];
         tempbetapars[0] = alpha[k];
         tempbetapars[1] = beta[k];
         piyp += logddirichlet(tempp,tempbetapars,2);
-
     }
-
+    
     accept = (int)UpdateMCMC(piyp,pixp,1,0,1.0);
     if(accept==1) {
         for(k=0;k<*numiso;k++) {

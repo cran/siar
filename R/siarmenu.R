@@ -3,7 +3,7 @@ siarmenu <- function() {
 library(coda)
 library(hdrcde)
 
-siarversion <-"1.2"
+siarversion <-"1.3"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))
@@ -244,7 +244,7 @@ if(length(fullname)==0) {
 }
 
 if(choose2==1 || choose2==2) { 
-    if(ncol(siardata)==2) {
+    if(!is.integer(siardata[1,1])) {
         numgroups <- 1
     } else {
         numgroups <- max(siardata[,1])
@@ -253,7 +253,7 @@ if(choose2==1 || choose2==2) {
 
 SHOULDRUN <- TRUE
 
-if(GRAPHSONLY == FALSE) {
+if(GRAPHSONLY == FALSE & ((ncol(sources)-1)/2) == 2) {
 cat("\n")
 cat("\n")
 cat("Now plotting data points ...  \n")
@@ -440,11 +440,11 @@ for(j in 1:numsources) {
 
 windows()
 if(fullname!=0) {
-    if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities for group ",groupnum,sep=""),xlab="",ylab="density")
-    if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities",sep=""),xlab="",ylab="density")
+    if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities for group ",groupnum,sep=""),xlab="roportion",ylab="density")
+    if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities",sep=""),xlab="roportion",ylab="density")
 } else {
-    if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities for group ",groupnum,sep=""),xlab="",ylab="density")
-    if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main="Proportion densities",xlab="",ylab="density")
+    if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities for group ",groupnum,sep=""),xlab="proportion",ylab="density")
+    if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main="Proportion densities",xlab="proportion",ylab="density")
 }
 mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
 
@@ -509,7 +509,7 @@ if(exists("sources")) {
 
 # Get some column names
 if(exists("siardata")) {
-    if(ncol(siardata)==2) {
+    if(!is.integer(siardata[1,1])) {
         colnames(out) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
     } else {
         colnames(out) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,numiso),sep="")),"G",sep=""),times=numgroups),sort(rep(seq(1,numgroups),times=numsources+numiso)),sep="")     
@@ -521,11 +521,11 @@ usepars <- out[,((groupnum-1)*(numsources+numiso)+1):(groupnum*(numsources+numis
 
 windows()
 if(fullname!=0) {
-    if(numgroups > 1) pairs(usepars[,1:numsources],xlim=c(0,1),ylim=c(0,1),main=paste(fullname,": matrix plot of proportions for group ",groupnum,sep=""),diag.panel=panelhist)
-    if(numgroups ==1) pairs(usepars[,1:numsources],xlim=c(0,1),ylim=c(0,1),main=paste(fullname,": matrix plot of proportions",sep=""),diag.panel=panelhist)
+    if(numgroups > 1) pairs(usepars[,1:numsources],xlim=c(0,1),ylim=c(0,1),main=paste(fullname,": matrix plot of proportions for group ",groupnum,sep=""),diag.panel=panelhist,lower.panel=panelcor)
+    if(numgroups ==1) pairs(usepars[,1:numsources],xlim=c(0,1),ylim=c(0,1),main=paste(fullname,": matrix plot of proportions",sep=""),diag.panel=panelhist,lower.panel=panelcor)
 } else {
-    if(numgroups > 1) pairs(usepars[,1:numsources],xlim=c(0,1),ylim=c(0,1),main=paste("Matrix plot of proportions for group ",groupnum,sep=""),diag.panel=panelhist)
-    if(numgroups ==1) pairs(usepars[,1:numsources],xlim=c(0,1),ylim=c(0,1),main="Matrix plot of proportions",diag.panel=panelhist)
+    if(numgroups > 1) pairs(usepars[,1:numsources],xlim=c(0,1),ylim=c(0,1),main=paste("Matrix plot of proportions for group ",groupnum,sep=""),diag.panel=panelhist,lower.panel=panelcor)
+    if(numgroups ==1) pairs(usepars[,1:numsources],xlim=c(0,1),ylim=c(0,1),main="Matrix plot of proportions",diag.panel=panelhist,lower.panel=panelcor)
 }
 
 cat("Press <Enter> to continue")
@@ -594,7 +594,7 @@ if(exists("sources")) {
 
 # Get some column names
 if(exists("siardata")) {
-    if(ncol(siardata)==2) {
+    if(!is.integer(siardata[1,1])) {
         colnames(out) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
     } else {
         colnames(out) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,numiso),sep="")),"G",sep=""),times=numgroups),sort(rep(seq(1,numgroups),times=numsources+numiso)),sep="")
@@ -661,7 +661,7 @@ while(BADFILE == TRUE) {
     if(!file.exists(outputfileloc)) {
         cat("This location doesn't exist, check your typing \n")
     } else {
-        cat("Please enter a filename and an extensions for the parameters: \n")
+        cat("Please enter a filename and a file extension for the parameters: \n")
         outputfilename <- scan(what="",nlines=1,quiet=TRUE)
         while(length(outputfilename)==0) outputfilename <- scan(what="",nlines=1,quiet=TRUE)
         if(outputfilename==0) siarmenu()
@@ -681,7 +681,7 @@ while(BADFILE == TRUE) {
         numiso <- (ncol(sources)-1)/2
 
         # Get some column names
-        if(ncol(siardata)==2) {
+        if(!is.integer(siardata[1,1])) {
             colnames(out) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
         } else {
             colnames(out) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,numiso),sep="")),"G",sep=""),times=numgroups),sort(rep(seq(1,numgroups),times=numsources+numiso)),sep="")     
@@ -730,7 +730,7 @@ colnames(hdrsummary) <- c("Low 95% hdr","High 95% hdr","mode","mean")
 if(exists("siardata")) {
     sourcenames <- as.character(sources[,1])
     numiso <- (ncol(sources)-1)/2
-    if(ncol(siardata)==2) {    
+    if(!is.integer(siardata[1,1])) {    
         rownames(hdrsummary) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
     } else {
         rownames(hdrsummary) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,numiso),sep="")),"G",sep=""),times=numgroups),sort(rep(seq(1,numgroups),times=numsources+numiso)),sep="")
@@ -788,10 +788,19 @@ invisible()
 cat(" The target isotope data is called geese1demo and \n")
 cat(" has the following format: \n")
 print(geese1demo)
+cat("Press <Enter> to continue... \n")
+readline()
+invisible()
 cat("\n The source isotope data is called sourcesdemo and looks like this: \n")
 print(sourcesdemo)
+cat("Press <Enter> to continue... \n")
+readline()
+invisible()
 cat("\n The fraction correction data is called correctionsdemo: \n")
 print(correctionsdemo)
+cat("Press <Enter> to continue... \n")
+readline()
+invisible()
 cat("\n")
 
 cat("The data can be plotted and looks like this... \n")
@@ -816,7 +825,7 @@ for(i in 1:nrow(sourcesdemo)) {
     lines(c(sourcesdemo[i,2],sourcesdemo[i,2]),c(sourcesdemo[i,4]-2*sourcesdemo[i,5],sourcesdemo[i,4]+2*sourcesdemo[i,5]),col=i)
 }
 mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
-legend(10,-24,legend=c(as.character(sourcesdemo[,1]),"data"),lty=c(rep(1,nrow(sourcesdemo)),1),pch=c(rep(15,nrow(sourcesdemo)),1),col=c(seq(1,nrow(sourcesdemo)),"grey"),bty="n")
+legend(9.5,-24,legend=c(as.character(sourcesdemo[,1]),"data"),lty=c(rep(1,nrow(sourcesdemo)),1),pch=c(rep(15,nrow(sourcesdemo)),1),col=c(seq(1,nrow(sourcesdemo)),"grey"),bty="n")
 
 cat("Press <Enter> to continue \n")
 readline()
@@ -840,7 +849,7 @@ readline()
 invisible()
 
 cat("From the options menu you can now choose a plot, such as this \n")
-cat("density plot: \n")
+cat("density plot... \n")
 
 cat("Press <Enter> to see the plot \n")
 readline()
@@ -867,11 +876,11 @@ for(j in 1:numsources) {
 }
 windows()
 if(fullname!=0) {
-    if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities for group ",groupnum,sep=""),xlab="",ylab="density")
-    if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities",sep=""),xlab="",ylab="density")
+    if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities for group ",groupnum,sep=""),xlab="proportion",ylab="density")
+    if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities",sep=""),xlab="proportion",ylab="density")
 } else {
-    if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities for group ",groupnum,sep=""),xlab="",ylab="density")
-    if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main="Proportion densities",xlab="",ylab="density")
+    if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities for group ",groupnum,sep=""),xlab="proportion",ylab="density")
+    if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main="Proportion densities",xlab="proportion",ylab="density")
 }
 mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
 
@@ -892,7 +901,7 @@ cat("With more complicated data sets (see geese2demo), you can fit the model \n"
 cat("to multiple groups and produce different types of plots \n")
 cat("For advanced users, the function siarmcmc() will allow runs \n")
 cat("with different run parameters (such as the number of iterations). \n")
-cat("See help(siarmcmc) for more details. \n \n")
+cat("Type help(siarmcmc) for more details. \n \n")
 
 cat("Good luck using the software. \n")
 cat("Please report bugs to Andrew.Parnell@tcd.ie \n")
@@ -911,7 +920,6 @@ if(choose == 10)
 cat("Thank you. Exiting... \n")
 EXIT=TRUE
 }
-
 
 }
 
