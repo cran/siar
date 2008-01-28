@@ -5,7 +5,7 @@
   Runs an MCMC on stable isotope data from animals to determine their dietary habits.
 }
 \usage{
-siarmcmc(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, howmany = 10000, thinby = 15, prior = rep(1, nrow(sources)))
+siarmcmc(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, howmany = 10000, thinby = 15, alpha = rep(1, nrow(sources)), beta = rep(1, nrow(sources)))
 }
 \arguments{
   \item{data}{ A matrix with each food source as a seperate row and each isotope as a seperate column.}
@@ -17,12 +17,13 @@ siarmcmc(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, how
   \item{burnin}{ The size of the burnin }
   \item{howmany}{ How often to report the number of iterations. }
   \item{thinby}{ The amount of thinning of the iterations. }
-  \item{prior}{ The dirichlet prior parameters, the default is the generalised uniform. }
+  \item{alpha}{ The beta distribution prior alpha parameters, the default is the uniform for each proportion. }
+  \item{beta}{ As above. }
 }
 \details{
   The model assumes that each target value comes from a Gaussian distribution with an unknown mean and standard 
   deviation. The structure of the mean is a weighted combination of the food sources' isotopic 
-  values. The proportional weights are of key interest and are given a Dirichlet prior distribution. The 
+  values. The proportional weights are of key interest and are given independent Beta prior distributions. The 
   standard deviation is divided up between the uncertainty around the fractionation corrections (if 
   corrections are given) and the natural variability between target individuals within a defined group 
   (or between all individuals if no grouping structure is specified). The default iterations numbers work well 

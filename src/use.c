@@ -4,7 +4,7 @@
 #include<Rmath.h>
 #include<R.h>
 
-double GetLik(double *X,double mean,double sd,int datasize,int isosize)
+double GetLik(double *X,double mean,double sd,int datasize)
 {
 // This function gets the normal density for two objects with differing means and sds
     

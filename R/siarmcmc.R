@@ -1,5 +1,5 @@
 siarmcmc <- function(data,sources,corrections=0,iterations=200000,burnin=50000,howmany=10000,
-        thinby=15,prior=rep(1,nrow(sources)))
+        thinby=15,alpha=rep(1,nrow(sources)),beta=rep(1,nrow(sources)))
 {
     # data should be a matrix of two or three columns and numdata rows. 
     # If it's 3 columns, the first must be the group number.
@@ -80,12 +80,11 @@ siarmcmc <- function(data,sources,corrections=0,iterations=200000,burnin=50000,h
         }
     }
 
- 
     if(BAD==FALSE) {
         .C("siarmcmcmultigroup",as.integer(numdata),as.integer(numsources),as.integer(numiso),
         as.integer(numgroups),as.integer(startgroup),as.integer(endgroup),as.integer(iterations),
-        as.integer(burnin),as.integer(howmany),as.integer(thinby),as.double(prior),as.data.frame(data2),
-        as.data.frame(sourcedata),as.data.frame(correctionsdata),as.data.frame(parameters))[[15]]
+        as.integer(burnin),as.integer(howmany),as.integer(thinby),as.double(alpha),as.double(beta),as.data.frame(data2),
+        as.data.frame(sourcedata),as.data.frame(correctionsdata),as.data.frame(parameters))[[16]]
         #,PACKAGE="siar")
     } else {
         cat("Problems with inputs: siar has not been run. \n")

@@ -3,7 +3,7 @@ siarmenu <- function() {
 library(coda)
 library(hdrcde)
 
-siarversion <-"1.1"
+siarversion <-"1.2"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))
@@ -21,7 +21,7 @@ EXIT <- FALSE
 while(EXIT==FALSE)
 {
 
-choices <- c("Load in some data (run this first)","Run SIAR for a single group","Run SIAR for multiple groups","Plot single group proportions","Matrix plot of proportions","Plot of proportions by group","Save parameter output to a file","Summary information and convergence diagnostics","Demo (for first time users)","Exit")
+choices <- c("Load in some data (run this first)","Run SIAR for a single group","Run SIAR for multiple groups","Plot single group proportions","Matrix plot of proportions","Plot of proportions by source","Save parameter output to a file","Summary information and convergence diagnostics","Demo (for first time users)","Exit")
 title <- "The available options are:"
 choose <- menu(choices,title = title)
 
@@ -479,7 +479,6 @@ cat("Matrix plot of groups proportions. \n")
 
 cat("Enter the group number of the proportions you wish to plot \n")
 cat("or leave blank if you have only have 1 group \n")
-cat("Click on the graph to position the legend... \n")
 groupnum <- as.integer(scan(what="integer",nlines=1,quiet=TRUE))
 if(length(groupnum)==0) {
     groupnum <- 1
@@ -625,8 +624,9 @@ for(j in 1:ncol(usepars)) {
 }
 
 legnames <- c("95% error","75% error","50% error")
-legend(mean(c(min(groupseq),max(groupseq))),1.02,legend=legnames,col=c("yellow","orange","red"),lwd=c(3,3,3),ncol=3,xjust=0.5,text.width=strwidth(legnames)/2)
+legend(mean(c(min(groupseq),max(groupseq))),1.02,legend=legnames,col=c("yellow","orange","red"),lwd=c(3,3,3),ncol=3,xjust=0.5,text.width=strwidth(legnames)/2,bty="n")
 
+cat("Please maximise this graph before saving or printing. \n")
 cat("Press <Enter> to continue")
 readline()
 invisible()
@@ -881,7 +881,7 @@ for(j in 1:numsources) {
         lines(c(Ans$mids[k]+(j/((numsources+1)/2)-1)*halfwidth,Ans$mids[k]+(j/((numsources+1)/2)-1)*halfwidth),c(0,Ans$density[k]),col=j,lwd=(numsources+1)/2,lend=1)
     }
 }
-legend(0.6,15,legend=sourcenames,col=seq(1,5),lty=1,lwd=3,bty="n")
+legend(0.6,12,legend=sourcenames,col=seq(1,5),lty=1,lwd=3,bty="n")
 
 
 cat("Press <Enter> to continue")

@@ -8,7 +8,7 @@ Stable Isotope Analysis in R.
 }
 \description{
 This package takes data on animal isotopes and fits a Bayesian model to their dietary habits based 
-upon a Gaussian likelihood with a Dirichlet prior on the mean. The main function, siarmcmc(), allows
+upon a Gaussian likelihood with a product beta prior mixture on the mean. The main function, siarmcmc(), allows
 the user to specify the data and choose the size of the MCMC run. A wrapper for the package, siarmenu()
 gives a walkthrough of all the functions contained in the package and produces some pretty plots. Some
 example data on Geese plasma is included for illustration.
