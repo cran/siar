@@ -1,0 +1,5 @@
+useDynLib(siar)
+
+import(hdrcde, coda)
+
+export("siarmcmc","siarmenu","geese1demo","geese2demo","sourcesdemo","correctionsdemo","panelhist","allgroups") 
