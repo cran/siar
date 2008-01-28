@@ -1,10 +1,9 @@
-`siarmenu` <-
-function() {
+siarmenu <- function() {
 
 library(coda)
 library(hdrcde)
 
-siarversion <-"1.0"
+siarversion <-"1.1"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))
@@ -17,6 +16,7 @@ cat("Useful: Press 0 at a prompt to return to the main menu or Esc to exit. \n \
 PATH <- NULL
 
 SHOULDRUN <- FALSE
+GRAPHSONLY <- FALSE
 EXIT <- FALSE
 while(EXIT==FALSE)
 {
@@ -95,22 +95,23 @@ while(BADCORRECTIONS == TRUE) {
     cat("(including the file extension eg .txt, .dat, etc) \n")
     cat("or leave blank to use pre-corrected values \n")
     CORRECTIONSFILE <- scan(what="",nlines=1,quiet=TRUE)
+    if(length(CORRECTIONSFILE)==0) CORRECTIONSFILE <- -999
     if(CORRECTIONSFILE==0) siarmenu()
     if(file.exists(paste(PATH,"\\",CORRECTIONSFILE,sep=""))) {
         BADCORRECTIONS <- FALSE
     } else {
-        if(length(CORRECTIONSFILE) == 0) {
+        if(CORRECTIONSFILE == -999) {
             BADCORRECTIONS <- FALSE
-            corrections <- 0
+            corrections <- matrix(0,nrow=1,ncol=1)
         }
-        cat("Cannot find this file, check your typing \n")
+        if(CORRECTIONSFILE !=-999) cat("Cannot find this file, check your typing \n")
     }
 }
 
 cat("Now loading in data... \n")
 siardata <- as.data.frame(read.table(paste(PATH,"\\",DATAFILE,sep=""),header=TRUE))
-sources <- as.data.frame(read.table(paste(PATH,"\\",SOURCESFILE,sep=""),header=TRUE))
-if(length(corrections) != 0) corrections <- as.data.frame(read.table(paste(PATH,"\\",SOURCESFILE,sep="")))
+sources <- as.data.frame(read.table(paste(PATH,"\\",SOURCEFILE,sep=""),header=TRUE))
+if(CORRECTIONSFILE != -999) corrections <- as.data.frame(read.table(paste(PATH,"\\",CORRECTIONSFILE,sep=""),header=TRUE))
 cat("Done \n \n")
 
 }
@@ -156,7 +157,7 @@ correctionsexists <- FALSE
 while(correctionsexists == FALSE) {
     correctionstemp <- scan(what="",nlines=1,quiet=TRUE)
     if(length(correctionstemp)==0) {
-        corrections <- 0
+        corrections <- matrix(0,nrow=1,ncol=1)
         correctionsexists <- TRUE
     } else {
         if(correctionstemp==0) siarmenu()
@@ -182,6 +183,7 @@ cat("into R itself (rather than through this program).\n \n")
 
 
 BADOUTPUT <- TRUE
+GRAPHSONLY <- TRUE
 while(BADOUTPUT == TRUE) {
 
     cat("Now input the name of the output file including the file extension \n")
@@ -219,6 +221,8 @@ while(BADGROUPS==TRUE) {
 
     if(ncol(out)==numgroups*(numiso+numsources)) {
         cat("Data successfully loaded from previous run. \n")
+        cat("You can now plot output and look at summary statistics \n")
+        cat("for this particular run. \n") 
         BADGROUPS <- FALSE
     } else {
         cat("The numbers you provided do not match with this output file. \n")
@@ -249,6 +253,55 @@ if(choose2==1 || choose2==2) {
 
 SHOULDRUN <- TRUE
 
+if(GRAPHSONLY == FALSE) {
+cat("\n")
+cat("\n")
+cat("Now plotting data points ...  \n")
+cat("Click to position the legend. \n")
+if(corrections[1,1] == 0) corrections <- matrix(0,nrow=1+(ncol(sources)-1)/2,ncol=3)
+if(numgroups==1) {
+    xmins <- min(c(sources[,2]-3*sources[,3],siardata[,1]-corrections[1,2]-3*corrections[1,3]))
+    xmaxs <- max(c(sources[,2]+3*sources[,3],siardata[,1]-corrections[1,2]+3*corrections[1,3]))
+    ymins <- min(c(sources[,4]-3*sources[,5],siardata[,2]-corrections[2,2]-3*corrections[2,3]))
+    ymaxs <- max(c(sources[,4]+3*sources[,5],siardata[,2]-corrections[2,2]+3*corrections[2,3]))
+    windows()
+    if(fullname==0) plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main="SIAR data",xlab=corrections[1,1],ylab=corrections[2,1])
+    if(fullname!=0) plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main=fullname,xlab=corrections[1,1],ylab=corrections[2,1])
+    for(j in 1:nrow(siardata)) {
+        points(siardata[j,1]-corrections[1,2],siardata[j,2]-corrections[2,2],col="grey")
+        lines(c(siardata[j,1]-corrections[1,2]-2*corrections[1,3],siardata[j,1]-corrections[1,2]+2*corrections[1,3]),c(siardata[j,2]-corrections[2,2],siardata[j,2]-corrections[2,2]),col="grey")
+        lines(c(siardata[j,1]-corrections[1,2],siardata[j,1]-corrections[1,2]),c(siardata[j,2]-corrections[2,2]-2*corrections[2,3],siardata[j,2]-corrections[2,2]+2*corrections[2,3]),col="grey")
+    }
+    points(cbind(sources[,2],sources[,4]),pch=15,col=seq(1,nrow(sources)))
+    for(i in 1:nrow(sources)) {
+        lines(c(sources[i,2]-2*sources[i,3],sources[i,2]+2*sources[i,3]),c(sources[i,4],sources[i,4]),col=i)
+        lines(c(sources[i,2],sources[i,2]),c(sources[i,4]-2*sources[i,5],sources[i,4]+2*sources[i,5]),col=i)
+    }
+    mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
+    legend(locator(1),legend=c(as.character(sources[,1]),"data"),lty=c(rep(1,nrow(sources)),1),pch=c(rep(15,nrow(sources)),1),col=c(seq(1,nrow(sources)),"grey"),bty="n")
+} else {
+    xmins <- min(c(sources[,2]-3*sources[,3],siardata[,2]-corrections[1,2]-3*corrections[1,3]))
+    xmaxs <- max(c(sources[,2]+3*sources[,3],siardata[,2]-corrections[1,2]+3*corrections[1,3]))
+    ymins <- min(c(sources[,4]-3*sources[,5],siardata[,3]-corrections[2,2]-3*corrections[2,3]))
+    ymaxs <- max(c(sources[,4]+3*sources[,5],siardata[,3]-corrections[2,2]+3*corrections[2,3]))
+    windows()
+    if(fullname==0) plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main="SIAR data",xlab=corrections[1,1],ylab=corrections[2,1])
+    if(fullname!=0) plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main=fullname,xlab=corrections[1,1],ylab=corrections[2,1])
+    for(j in 1:nrow(siardata)) {
+        points(siardata[j,2]-corrections[1,2],siardata[j,3]-corrections[2,2],col="grey")
+        lines(c(siardata[j,2]-corrections[1,2]-2*corrections[1,3],siardata[j,2]-corrections[1,2]+2*corrections[1,3]),c(siardata[j,3]-corrections[2,2],siardata[j,3]-corrections[2,2]),col="grey")
+        lines(c(siardata[j,2]-corrections[1,2],siardata[j,2]-corrections[1,2]),c(siardata[j,3]-corrections[2,2]-2*corrections[2,3],siardata[j,3]-corrections[2,2]+2*corrections[2,3]),col="grey")
+    }
+    points(cbind(sources[,2],sources[,4]),pch=15,col=seq(1,nrow(sources)))
+    for(i in 1:nrow(sources)) {
+        lines(c(sources[i,2]-2*sources[i,3],sources[i,2]+2*sources[i,3]),c(sources[i,4],sources[i,4]),col=i)
+        lines(c(sources[i,2],sources[i,2]),c(sources[i,4]-2*sources[i,5],sources[i,4]+2*sources[i,5]),col=i)
+    }
+    mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
+    legend(locator(1),legend=c(as.character(sources[,1]),"data"),lty=c(rep(1,nrow(sources)),1),pch=c(rep(15,nrow(sources)),1),col=c(seq(1,nrow(sources)),"grey"),bty="n")
+}
+}
+
 cat("Press <Enter> to continue")
 readline()
 invisible()
@@ -262,8 +315,8 @@ invisible()
 # Section 2
 if(choose == 2) {
 
-if(SHOULDRUN==FALSE) {
-    cat("You must run option 1 or option 9 first in order to use the rest of this program. \n")
+if(SHOULDRUN==FALSE || GRAPHSONLY ==TRUE) {
+    cat("You must run option 1 or option 9 first in order to use this feature of the program. \n")
     cat("Press <Enter> to continue")
     readline()
     invisible()
@@ -301,8 +354,8 @@ invisible()
 # Section 3
 if(choose == 3) {
 
-if(SHOULDRUN==FALSE) {
-    cat("You must run option 1 or option 9 first in order to use the rest of this program. \n")
+if(SHOULDRUN==FALSE || GRAPHSONLY==TRUE) {
+    cat("You must run option 1 or option 9 first in order to use this feature of the program. \n")
     cat("Press <Enter> to continue")
     readline()
     invisible()
@@ -326,8 +379,8 @@ runchoose <- menu(runchoices,title = runtitle)
 
 # Now run the code
 if(runchoose == 1) out <- siarmcmc(siardata,sources,corrections)
-if(runchoose == 2) out <- siarmcmc(siardata,sources,corrections,400000,200000,10000,100)
-if(runchoose == 3) out <- siarmcmc(siardata,sources,corrections,1000000,400000,20000,300)
+if(runchoose == 2) out <- siarmcmc(siardata,sources,corrections,400000,200000,10000,20)
+if(runchoose == 3) out <- siarmcmc(siardata,sources,corrections,1000000,400000,20000,60)
 
 cat("Press <Enter> to continue")
 readline()
@@ -341,7 +394,7 @@ invisible()
 if(choose == 4) {
 
 if(SHOULDRUN==FALSE) {
-    cat("You must run option 1 or option 9 first in order to use the rest of this program. \n")
+    cat("You must run option 1 or option 9 first in order to use this feature of the program. \n")
     cat("Press <Enter> to continue")
     readline()
     invisible()
@@ -415,7 +468,7 @@ invisible()
 if(choose == 5) {
 
 if(SHOULDRUN==FALSE) {
-    cat("You must run option 1 or option 9 first in order to use the rest of this program. \n")
+    cat("You must run option 1 or option 9 first in order to use this feature of the program. \n")
     cat("Press <Enter> to continue")
     readline()
     invisible()
@@ -488,7 +541,7 @@ invisible()
 if(choose == 6) {
 
 if(SHOULDRUN==FALSE) {
-    cat("You must run option 1 or option 9 first in order to use the rest of this program. \n")
+    cat("You must run option 1 or option 9 first in order to use this feature of the program. \n")
     cat("Press <Enter> to continue")
     readline()
     invisible()
@@ -587,7 +640,7 @@ invisible()
 if(choose == 7) {
 
 if(SHOULDRUN==FALSE) {
-    cat("You must run option 1 or option 9 first in order to use the rest of this program. \n")
+    cat("You must run option 1 or option 9 first in order to use this feature of the program. \n")
     cat("Press <Enter> to continue")
     readline()
     invisible()
@@ -656,7 +709,7 @@ if(choose == 8)
 {
 
 if(SHOULDRUN==FALSE) {
-    cat("You must run option 1 or option 9 first in order to use the rest of this program. \n")
+    cat("You must run option 1 or option 9 first in order to use this feature of the program. \n")
     cat("Press <Enter> to continue")
     readline()
     invisible()
@@ -735,11 +788,35 @@ invisible()
 cat(" The target isotope data is called geese1demo and \n")
 cat(" has the following format: \n")
 print(geese1demo)
-cat("\n The source isotope data is called sourcesdemo looks thus: \n")
+cat("\n The source isotope data is called sourcesdemo and looks like this: \n")
 print(sourcesdemo)
 cat("\n The fraction correction data is called correctionsdemo: \n")
 print(correctionsdemo)
 cat("\n")
+
+cat("The data can be plotted and looks like this... \n")
+cat("Press <Enter> to continue \n")
+readline()
+invisible()
+
+xmins <- min(c(sourcesdemo[,2]-3*sourcesdemo[,3],geese1demo[,1]+correctionsdemo[1,2]))
+xmaxs <- max(c(sourcesdemo[,2]+3*sourcesdemo[,3],geese1demo[,1]+correctionsdemo[1,2]))
+ymins <- min(c(sourcesdemo[,4]-3*sourcesdemo[,5],geese1demo[,2]+correctionsdemo[2,2]))
+ymaxs <- max(c(sourcesdemo[,4]+3*sourcesdemo[,5],geese1demo[,2]+correctionsdemo[2,2]))
+windows()
+plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main="Geese demo data",xlab=correctionsdemo[1,1],ylab=correctionsdemo[2,1])
+for(j in 1:nrow(geese1demo)) {
+    points(geese1demo[j,1]-correctionsdemo[1,2],geese1demo[j,2]-correctionsdemo[2,2],col="grey")
+    lines(c(geese1demo[j,1]-correctionsdemo[1,2]-2*correctionsdemo[1,3],geese1demo[j,1]-correctionsdemo[1,2]+2*correctionsdemo[1,3]),c(geese1demo[j,2]-correctionsdemo[2,2],geese1demo[j,2]-correctionsdemo[2,2]),col="grey")
+    lines(c(geese1demo[j,1]-correctionsdemo[1,2],geese1demo[j,1]-correctionsdemo[1,2]),c(geese1demo[j,2]-correctionsdemo[2,2]-2*correctionsdemo[2,3],geese1demo[j,2]-correctionsdemo[2,2]+2*correctionsdemo[2,3]),col="grey")
+}
+points(cbind(sourcesdemo[,2],sourcesdemo[,4]),pch=15,col=seq(1,nrow(sourcesdemo)))
+for(i in 1:nrow(sourcesdemo)) {
+    lines(c(sourcesdemo[i,2]-2*sourcesdemo[i,3],sourcesdemo[i,2]+2*sourcesdemo[i,3]),c(sourcesdemo[i,4],sourcesdemo[i,4]),col=i)
+    lines(c(sourcesdemo[i,2],sourcesdemo[i,2]),c(sourcesdemo[i,4]-2*sourcesdemo[i,5],sourcesdemo[i,4]+2*sourcesdemo[i,5]),col=i)
+}
+mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
+legend(10,-24,legend=c(as.character(sourcesdemo[,1]),"data"),lty=c(rep(1,nrow(sourcesdemo)),1),pch=c(rep(15,nrow(sourcesdemo)),1),col=c(seq(1,nrow(sourcesdemo)),"grey"),bty="n")
 
 cat("Press <Enter> to continue \n")
 readline()
@@ -788,6 +865,7 @@ top <- 0
 for(j in 1:numsources) {
     top <- max(c(top,max(hist(usepars[,j],plot=FALSE,breaks=mybreaks)$density)))
 }
+windows()
 if(fullname!=0) {
     if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities for group ",groupnum,sep=""),xlab="",ylab="density")
     if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities",sep=""),xlab="",ylab="density")
@@ -838,4 +916,3 @@ EXIT=TRUE
 }
 
 }
-

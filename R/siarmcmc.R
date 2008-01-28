@@ -1,6 +1,5 @@
-`siarmcmc` <-
-function(data,sources,corrections=0,iterations=200000,burnin=50000,howmany=10000,
-        thinby=75,prior=rep(1,nrow(sources)))
+siarmcmc <- function(data,sources,corrections=0,iterations=200000,burnin=50000,howmany=10000,
+        thinby=15,prior=rep(1,nrow(sources)))
 {
     # data should be a matrix of two or three columns and numdata rows. 
     # If it's 3 columns, the first must be the group number.
@@ -95,4 +94,3 @@ function(data,sources,corrections=0,iterations=200000,burnin=50000,howmany=10000
         
    
 }
-

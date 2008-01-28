@@ -5,7 +5,7 @@
   Runs an MCMC on stable isotope data from animals to determine their dietary habits.
 }
 \usage{
-siarmcmc(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, howmany = 10000, thinby = 75, prior = rep(1, nrow(sources)))
+siarmcmc(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, howmany = 10000, thinby = 15, prior = rep(1, nrow(sources)))
 }
 \arguments{
   \item{data}{ A matrix with each food source as a seperate row and each isotope as a seperate column.}
