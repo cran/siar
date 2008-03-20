@@ -1,5 +1,6 @@
 useDynLib(siar)
 
-import(hdrcde, coda)
+import(hdrcde, coda, MASS)
 
-export("siarmcmc","siarmenu","geese1demo","geese2demo","sourcesdemo","correctionsdemo","panelhist","allgroups","panelcor") 
+export("siarmenu","panelhist","panelcor","panelcontour","newgraphwindow","siardemo","siarhdrs","siarhistograms","siarmatrixplot","siarmcmcdirichlet","siarsinglegrouprun","siarmultigrouprun","siarproportionbysourceplot","siarsaveoutput","loadsiardata","geese1demo","geese2demo","sourcesdemo","correctionsdemo","allgroups") 
+

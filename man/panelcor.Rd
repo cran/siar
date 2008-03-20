@@ -1,6 +1,6 @@
 \name{panelcor}
 \alias{panelcor}
-\title{ Adds correlations to the lower diagonal of a matrix plot }
+\title{ Adds correlations to a matrix plot }
 \description{
   A simple function used by pairs to produce neat looking matrix plots. Not intended for use by
   those using siar.
@@ -23,3 +23,5 @@ panelcor(x, y, digits = 2, prefix = "", cex.cor, ...)
 \references{  }
 \author{ Unknown }
 \keyword{ programming}
+\keyword{ models}
+

@@ -1,14 +1,14 @@
-\name{siarmcmc}
-\alias{siarmcmc}
+\name{siarmcmcdirichlet}
+\alias{siarmcmcdirichlet}
 \title{ MCMC for stable isotope data }
 \description{
   Runs an MCMC on stable isotope data from animals to determine their dietary habits.
 }
 \usage{
-siarmcmc(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, howmany = 10000, thinby = 15, alpha = rep(1, nrow(sources)), beta = rep(1, nrow(sources)))
+siarmcmcdirichlet(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, howmany = 10000, thinby = 15, prior = rep(1, nrow(sources)))
 }
 \arguments{
-  \item{data}{ A matrix with each food source as a seperate row and each isotope as a seperate column.}
+   \item{data}{ A matrix with each food source as a seperate row and each isotope as a seperate column.}
   \item{sources}{ A matrix containing the mean and standard deviations of the fractionated correction 
   values for each of the isotopes. Also allows corrections = 0 for pre-corrected data. }
   \item{corrections}{ A matrix containing the mean and standard deviations of the fractional correction
@@ -17,18 +17,16 @@ siarmcmc(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, how
   \item{burnin}{ The size of the burnin }
   \item{howmany}{ How often to report the number of iterations. }
   \item{thinby}{ The amount of thinning of the iterations. }
-  \item{alpha}{ The beta distribution prior alpha parameters, the default is the uniform for each proportion. }
-  \item{beta}{ As above. }
+  \item{prior}{ The dirichlet distribution prior parameters, the default is rep(1,numsources). }
 }
 \details{
   The model assumes that each target value comes from a Gaussian distribution with an unknown mean and standard 
   deviation. The structure of the mean is a weighted combination of the food sources' isotopic 
-  values. The proportional weights are of key interest and are given independent Beta prior distributions. The 
+  values. The proportional weights are of key interest and are given a Dirichlet prior distribution. The 
   standard deviation is divided up between the uncertainty around the fractionation corrections (if 
   corrections are given) and the natural variability between target individuals within a defined group 
   (or between all individuals if no grouping structure is specified). The default iterations numbers work well 
   for the demo data sets, but advanced users will want to adjust them to suit their analysis. 
-
 }
 \value{
   A parameter matrix consisting of (iterations-burnin)/thinby rows with numgroups*(numsources+numiso) 
@@ -44,7 +42,7 @@ siarmcmc(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, how
 \seealso{ \code{\link{siarmenu}} }
 \examples{
 # Should take around 10 seconds to run
-#out <- siarmcmc(geese1demo,plantsdemo,correctionsdemo)
+#out <- siarmcmcdirichlet(geese1demo,plantsdemo,correctionsdemo)
 }
 \keyword{ programming }
 \keyword{ models }

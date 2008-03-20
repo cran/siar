@@ -6,12 +6,12 @@
 #include<R.h>
 #include<Rmath.h>
 
-void siarmcmcmultigroup(int *numdata,int *numplants,int *numiso,int *numgroups,int *startat, int *endat, int *iterations,int *burnin,int *howmany,int *thinby, double *prioralpha, double *priorbeta, double **data, double **plants, double **corrections,double **pars) 
+void siarmcmcmultigroupdirichlet(int *numdata,int *numplants,int *numiso,int *numgroups,int *startat, int *endat, int *iterations,int *burnin,int *howmany,int *thinby, double *prior, double **data, double **plants, double **corrections,double **pars) 
 {
 
 //////////////////////////// INPUTS ///////////////////////////////
 Rprintf("Stable Isotope Analysis in R \n");
-Rprintf("An MCMC for Normally distributed data with a mixture mean \n");
+Rprintf("An MCMC for Normally distributed data with a dirichlet mixture mean \n");
 Rprintf("-------------------------------------------------------------------------\n \n");
 if(*numgroups == 1) {
     Rprintf("This is the single group version with the following parameters: \n");
@@ -23,11 +23,11 @@ Rprintf("Number of iterations: %i \n",*iterations);
 Rprintf("Burn in: %i \n",*burnin);
 Rprintf("Thinning by: %i \n",*thinby);
 Rprintf("Number of isotopes: %i \n",*numiso);
-Rprintf("Number of plants: %i \n",*numplants);
+Rprintf("Number of sources: %i \n",*numplants);
 
 // Declare some variables and read in everything
 double thedatabig[*numdata][*numiso],theplants[*numplants][*numiso*2],thecorrections[*numiso][2];
-double theparameters[(*iterations-*burnin)/(*thinby)][(*numiso+*numplants)*(*numgroups)];
+float theparameters[(*iterations-*burnin)/(*thinby)][(*numiso+*numplants)*(*numgroups)];
 int groupsize;
 
 // Read in each in turn from the data
@@ -66,10 +66,9 @@ for(i=0;i<groupsize;i++) {
 // Get starting values and stuff like that
 double p[*numplants],pnew[*numplants],sump,sumpnew,Xsd[*numiso],Xsdnew[*numiso],Animsdratios[*numiso];
 double meanold[*numiso],meannew[*numiso],piyp,pixp,piyXsd[*numiso],pixXsd[*numiso],Animsd[*numiso],Animsdnew[*numiso];
-double alpha[*numplants],beta[*numplants],tempp[2],tempbetapars[2];
+double theprior[*numplants];
 
-for(i=0;i<*numplants;i++) alpha[i] = prioralpha[i];
-for(i=0;i<*numplants;i++) beta[i] = priorbeta[i];
+for(i=0;i<*numplants;i++) theprior[i] = prior[i];
 
 // Start with the RNG
 GetRNGstate();
@@ -105,14 +104,7 @@ for(k=0;k<*numiso;k++) {
     pixp += GetLik(tempdata,meanold[k],Xsd[k],groupsize);
     pixXsd[k] = GetLik(tempdata,meanold[k],Xsd[k],groupsize);
 }
-for(k=0;k<*numplants;k++) {
-    tempp[0] = p[k];
-    tempp[1] = 1-p[k];
-    tempbetapars[0] = alpha[k];
-    tempbetapars[1] = beta[k];
-    pixp += logddirichlet(tempp,tempbetapars,2);
-
-}
+pixp += logddirichlet(p,theprior,*numplants);
 
 // Get some useful markers
 int accept;
@@ -160,15 +152,8 @@ for(i=0;i<*iterations+1;i++) {
         piyp += GetLik(tempdata,meannew[k],Xsdnew[k],groupsize);
         piyXsd[k] = GetLik(tempdata,meannew[k],Xsdnew[k],groupsize);
     }
-    
-    for(k=0;k<*numplants;k++) {
-        tempp[0] = pnew[k];
-        tempp[1] = 1-pnew[k];
-        tempbetapars[0] = alpha[k];
-        tempbetapars[1] = beta[k];
-        piyp += logddirichlet(tempp,tempbetapars,2);
-    }
-    
+    piyp += logddirichlet(pnew,theprior,*numplants);
+
     accept = (int)UpdateMCMC(piyp,pixp,1,0,1.0);
     if(accept==1) {
         for(k=0;k<*numiso;k++) {
