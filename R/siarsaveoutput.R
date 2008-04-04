@@ -1,5 +1,4 @@
-`siarsaveoutput` <-
-function(siardata) {
+siarsaveoutput <- function(siardata) {
 
 if(siardata$SHOULDRUN==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -17,6 +16,8 @@ if(length(siardata$output)==0) {
 
 BADFILE <- TRUE
 while(BADFILE == TRUE) {
+    cat("This option will save all the model details to a .Rdata file.\n")
+    cat("It can be loaded back in via siarmenu() of by the command load(file).\n")
     cat("Enter a directory location where the output parameters will reside: \n")
 
     outputfileloc <- scan(what="",nlines=1,quiet=TRUE)
@@ -26,7 +27,7 @@ while(BADFILE == TRUE) {
     if(!file.exists(outputfileloc)) {
         cat("This location doesn't exist, check your typing \n")
     } else {
-        cat("Please enter a filename and a file extension for the parameters: \n")
+        cat("Please enter a filename: \n")
         outputfilename <- scan(what="",nlines=1,quiet=TRUE)
         while(length(outputfilename)==0) outputfilename <- scan(what="",nlines=1,quiet=TRUE)
         if(outputfilename==0) return(NULL)
@@ -44,11 +45,9 @@ while(BADFILE == TRUE) {
             siarcolnames <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,siardata$numiso),sep="")),"G",sep=""),times=siardata$numgroups),sort(rep(seq(1,siardata$numgroups),times=siardata$numsources+siardata$numiso)),sep="")     
         }
 
-        tempout <- siardata$output
-        colnames(tempout) <- siarcolnames
         
         cat("Writing output ... \n")
-        write.table(tempout,file=paste(outputfileloc,"/",outputfilename,sep=""),quote=FALSE,row.names=FALSE)
+        save(siardata,file=paste(outputfileloc,"/",outputfilename,".Rdata",sep=""))
         BADFILE <- FALSE
         cat("Output created. \n \n ")
         
@@ -65,4 +64,3 @@ while(BADFILE == TRUE) {
 
 
 }
-

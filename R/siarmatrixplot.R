@@ -1,5 +1,4 @@
-`siarmatrixplot` <-
-function(siardata,siarversion) {
+siarmatrixplot <- function(siardata,siarversion=0) {
 
 if(siardata$SHOULDRUN==FALSE && siardata$GRAPHSONLY==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -48,13 +47,20 @@ if(length(siardata$targets)>0) {
 usepars <- siardata$output[,((groupnum-1)*(siardata$numsources+siardata$numiso)+1):(groupnum*(siardata$numsources+siardata$numiso))]
 
 newgraphwindow()
-if(siardata$TITLE!="SIAR data") {
-    if(siardata$numgroups > 1) pairs(usepars[,1:siardata$numsources],xlim=c(0,1),ylim=c(0,1),main=paste(siardata$TITLE,": matrix plot of proportions for group ",groupnum,sep=""),diag.panel=panelhist,lower.panel=panelcor,upper.panel=panelcontour)
-    if(siardata$numgroups ==1) pairs(usepars[,1:siardata$numsources],xlim=c(0,1),ylim=c(0,1),main=paste(siardata$TITLE,": matrix plot of proportions",sep=""),diag.panel=panelhist,lower.panel=panelcor,upper.panel=panelcontour)
+
+if(length(siardata$TITLE) > 0) {
+    if(siardata$TITLE!="SIAR data") {
+        if(siardata$numgroups > 1) pairs(usepars[,1:siardata$numsources],xlim=c(0,1),ylim=c(0,1),main=paste(siardata$TITLE,": matrix plot of proportions for group ",groupnum,sep=""),diag.panel=panelhist,lower.panel=panelcor,upper.panel=panelcontour)
+        if(siardata$numgroups ==1) pairs(usepars[,1:siardata$numsources],xlim=c(0,1),ylim=c(0,1),main=paste(siardata$TITLE,": matrix plot of proportions",sep=""),diag.panel=panelhist,lower.panel=panelcor,upper.panel=panelcontour)
+    } else {
+        if(siardata$numgroups > 1) pairs(usepars[,1:siardata$numsources],xlim=c(0,1),ylim=c(0,1),main=paste("Matrix plot of proportions for group ",groupnum,sep=""),diag.panel=panelhist,lower.panel=panelcor,upper.panel=panelcontour)
+        if(siardata$numgroups ==1) pairs(usepars[,1:siardata$numsources],xlim=c(0,1),ylim=c(0,1),main="Matrix plot of proportions",diag.panel=panelhist,lower.panel=panelcor,upper.panel=panelcontour)
+    }
 } else {
     if(siardata$numgroups > 1) pairs(usepars[,1:siardata$numsources],xlim=c(0,1),ylim=c(0,1),main=paste("Matrix plot of proportions for group ",groupnum,sep=""),diag.panel=panelhist,lower.panel=panelcor,upper.panel=panelcontour)
     if(siardata$numgroups ==1) pairs(usepars[,1:siardata$numsources],xlim=c(0,1),ylim=c(0,1),main="Matrix plot of proportions",diag.panel=panelhist,lower.panel=panelcor,upper.panel=panelcontour)
 }
 
-}
+if(siarversion>0) mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
 
+}

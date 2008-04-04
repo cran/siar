@@ -1,11 +1,10 @@
-`siarmenu` <-
-function() {
+siarmenu <- function() {
 
 library(coda)
 library(hdrcde)
 library(MASS)
 
-siarversion <-"2.0"
+siarversion <-"2.1"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))
@@ -18,6 +17,7 @@ cat("Useful: Press 0 at a prompt to return to the main menu or Esc to exit. \n \
 siardata <- list()
 siardata$SHOULDRUN <- FALSE
 siardata$EXIT <- FALSE
+siardata$GRAPHSONLY <- FALSE
 
 while(siardata$EXIT==FALSE)
 {
@@ -47,7 +47,7 @@ invisible()
 # Section 2
 if(choose == 2) {
 
-siardata$output <- siarsinglegrouprun(siardata)
+siardata <- siarsinglegrouprun(siardata)
 
 cat("Press <Enter> to continue")
 readline()
@@ -60,7 +60,7 @@ invisible()
 # Section 3
 if(choose == 3) {
 
-siardata$output <- siarmultigrouprun(siardata)
+siardata <- siarmultigrouprun(siardata)
 
 cat("Press <Enter> to continue")
 readline()
@@ -156,4 +156,3 @@ siardata$EXIT=TRUE
 }
 
 }
-

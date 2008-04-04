@@ -1,5 +1,4 @@
-`siarhistograms` <-
-function(siardata,siarversion) {
+siarhistograms <- function(siardata,siarversion=0) {
 
 if(siardata$SHOULDRUN==FALSE && siardata$GRAPHSONLY==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -48,7 +47,6 @@ for(j in 1:siardata$numsources) {
     top <- max(c(top,max(hist(usepars[,j],plot=FALSE,breaks=mybreaks)$density)))
 }
 
-
 if(choose==2) {
 
 newgraphwindow()
@@ -59,7 +57,7 @@ if(siardata$TITLE!="SIAR data") {
     if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities for group ",groupnum,sep=""),xlab="proportion",ylab="density")
     if(siardata$numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main="Proportion densities",xlab="proportion",ylab="density")
 }
-mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
+if(siarversion>0) mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
 
 for(j in 1:siardata$numsources) {
     Ans <- hist(usepars[,j],plot=FALSE,breaks=mybreaks)
@@ -84,7 +82,7 @@ if(siardata$TITLE!="SIAR data") {
     if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities for group ",groupnum,": ",sourcenames[j],sep=""),xlab="proportion",ylab="density")
     if(siardata$numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities: ",sourcenames[j],sep=""),xlab="proportion",ylab="density")
 }
-    mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
+    if(siarversion>0) mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
 
     Ans <- hist(usepars[,j],plot=FALSE,breaks=mybreaks)
     for(k in 1:length(Ans$mids)) {
@@ -98,4 +96,3 @@ if(siardata$TITLE!="SIAR data") {
 
 
 }
-

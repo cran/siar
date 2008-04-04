@@ -1,5 +1,4 @@
-`loadsiardata` <-
-function(siarversion) {
+loadsiardata <- function(siarversion) {
 
 choices2 <- c("Load data in from files","Load in R objects","Load in previous output")
 title <- "The available options are:"
@@ -183,18 +182,15 @@ if(choose2==3) {
 
 cat("This option allows you to load in the parameters of a previously saved run \n")
 cat("so that you can produce graphs, etc. \n \n")
-cat("The structure of this file is such that each row is an iteration and each \n")
-cat("column represents either a source proportion parameter or a standard deviation \n")
-cat("estimate. More complex analysis can be run by simply loading this file \n")
-cat("into R itself (rather than through this program).\n \n")
-
+cat("More complex analysis can be run by simply loading this file \n")
+cat("into R itself via load(data) (rather than through this menu system).\n \n")
 
 BADOUTPUT <- TRUE
 GRAPHSONLY <- TRUE
 while(BADOUTPUT == TRUE) {
 
     cat("Now input the name of the output file including the file extension \n")
-    cat("and the directory where it is located (eg","c:\\siar\\data\\output.txt)",". \n")
+    cat("and the directory where it is located (eg","c:\\siar\\data\\output.Rdata)",". \n")
 
     OUTPUTFILE <- scan(what="",nlines=1,quiet=TRUE)
     while(length(OUTPUTFILE)==0) OUTPUTFILE <- scan(what="",nlines=1,quiet=TRUE)
@@ -207,60 +203,38 @@ while(BADOUTPUT == TRUE) {
 
 }
 
-output <- as.matrix(read.table(file=OUTPUTFILE,header=TRUE))
-
-BADGROUPS <- TRUE
-while(BADGROUPS==TRUE) {
-
-    cat("\n")
-    cat("Enter the number of groups that this output file represents: \n")
-    numgroups <- as.integer(scan(what="",nlines=1,quiet=TRUE))
-    while(length(numgroups)==0) numgroups <- scan(what="",nlines=1,quiet=TRUE)
-    if(numgroups==0) return(list(EXIT=FALSE))
-    cat("... and the number of isotopes: \n")
-    numiso <- as.integer(scan(what="",nlines=1,quiet=TRUE))
-    while(length(numiso)==0) numiso <- scan(what="",nlines=1,quiet=TRUE)
-    if(numiso==0) return(list(EXIT=FALSE))
-    cat("... and finally the number of sources: \n")
-    numsources <- as.integer(scan(what="",nlines=1,quiet=TRUE))
-    while(length(numsources)==0) numsources <- scan(what="",nlines=1,quiet=TRUE)
-    if(numsources==0) return(list(EXIT=FALSE))
-
-    if(ncol(output)==numgroups*(numiso+numsources)) {
-        cat("Data successfully loaded from previous run. \n")
-        cat("You can now plot output and look at summary statistics \n")
-        cat("for this particular run. \n") 
-        BADGROUPS <- FALSE
-    } else {
-        cat("The numbers you provided do not match with this output file. \n")
-        cat("The output file has",ncol(output),"columns which should be \n")
-        cat("the number of groups times (number of isotopes + number of sources) \n")
-        cat("Please check your answers \n")
-    }
-
-}
+#output <- as.matrix(read.table(file=OUTPUTFILE,header=TRUE))
+load(file=OUTPUTFILE)
 
 # Finally sort everything out so its in proper siar format
-targets <- NULL
-sources <- NULL
-corrections <- NULL
-PATH <- NULL
-numdata <- NULL
-SHOULDRUN <- FALSE
-GRAPHSONLY <- TRUE
-EXIT <- FALSE
+targets <- siardata$targets
+sources <- siardata$sources
+corrections <- siardata$corrections
+PATH <- siardata$PATH
+numdata <- siardata$numdata
+SHOULDRUN <- siardata$SHOULDRUN
+GRAPHSONLY <- siardata$GRAPHSONLY
+EXIT <- siardata$EXIT
+output <- siardata$output
+TITLE <- siardata$TITLE
+numgroups <- siardata$numgroups
+numdata <- siardata$numdata
+numsources <- siardata$numsources
+numiso <- siardata$numiso
 
 }
 
 ############################################################################
 # Enter a title
 
-cat("\n Please enter a name for the data set to be used in plots (or leave blank for default titles). \n")
-TITLE <- scan(what="",nlines=1,quiet=TRUE,sep="\t")
-if(length(TITLE)==0) {
-    TITLE <- "SIAR data"
-} else {
-    if(TITLE==0) return(NULL)
+if(choose2==1 || choose2==2) {
+    cat("\n Please enter a name for the data set to be used in plots (or leave blank for default titles). \n")
+    TITLE <- scan(what="",nlines=1,quiet=TRUE,sep="\t")
+    if(length(TITLE)==0) {
+        TITLE <- "SIAR data"
+    } else {
+        if(TITLE==0) return(NULL)
+    }
 }
 
 ############################################################################
@@ -329,4 +303,3 @@ if(numgroups==1) {
 return(list(targets=targets,sources=sources,corrections=corrections,PATH=PATH,TITLE=TITLE,numgroups=numgroups,numdata=numdata,numsources=numsources,numiso=numiso,SHOULDRUN=SHOULDRUN,GRAPHSONLY=GRAPHSONLY,EXIT=EXIT,output=output))
 
 }
-

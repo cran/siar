@@ -2,10 +2,10 @@
 \alias{siarmcmcdirichlet}
 \title{ MCMC for stable isotope data }
 \description{
-  Runs an MCMC on stable isotope data from animals to determine their dietary habits.
+  Runs an MCMC on stable isotope data from certain organisms to determine their dietary habits.
 }
 \usage{
-siarmcmcdirichlet(data, sources, corrections = 0, iterations = 2e+05, burnin = 50000, howmany = 10000, thinby = 15, prior = rep(1, nrow(sources)))
+siarmcmcdirichlet(data, sources, corrections = 0, iterations=200000, burnin=50000, howmany=10000, thinby=15, prior = rep(1, nrow(sources)), siardata=list(SHOULDRUN=FALSE))
 }
 \arguments{
    \item{data}{ A matrix with each food source as a seperate row and each isotope as a seperate column.}
@@ -18,6 +18,9 @@ siarmcmcdirichlet(data, sources, corrections = 0, iterations = 2e+05, burnin = 5
   \item{howmany}{ How often to report the number of iterations. }
   \item{thinby}{ The amount of thinning of the iterations. }
   \item{prior}{ The dirichlet distribution prior parameters, the default is rep(1,numsources). }
+  \item{siardata}{ A list containing some or all of the following parts: targets, sources, corrections,
+  PATH, TITLE, numgroups, numdata, numsources, numiso, SHOULDRUN, GRAPHSONLY, EXIT, and output. For more details
+  of these inputs see the \code{\link{siarmenu}} function. }
 }
 \details{
   The model assumes that each target value comes from a Gaussian distribution with an unknown mean and standard 

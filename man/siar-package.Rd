@@ -16,7 +16,7 @@ example data on Geese plasma is included for illustration.
 \tabular{ll}{
 Package: \tab siar\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
+Version: \tab 2.1\cr
 Date: \tab 2008-01-28\cr
 License: \tab GPL (>= 2)\cr
 }

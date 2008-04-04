@@ -1,5 +1,4 @@
-`siardemo` <-
-function(siarversion=0) {
+siardemo <- function(siarversion=0) {
 
 cat("==================== Demo ==================== \n \n")
 cat("This is a simple demo using the Geese data provided \n")
@@ -39,7 +38,7 @@ xmins <- min(c(sourcesdemo[,2]-3*sourcesdemo[,3],geese1demo[,1]+correctionsdemo[
 xmaxs <- max(c(sourcesdemo[,2]+3*sourcesdemo[,3],geese1demo[,1]+correctionsdemo[1,2]))
 ymins <- min(c(sourcesdemo[,4]-3*sourcesdemo[,5],geese1demo[,2]+correctionsdemo[2,2]))
 ymaxs <- max(c(sourcesdemo[,4]+3*sourcesdemo[,5],geese1demo[,2]+correctionsdemo[2,2]))
-windows()
+newgraphwindow()
 plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main="Geese demo data",xlab=correctionsdemo[1,1],ylab=correctionsdemo[2,1])
 for(j in 1:nrow(geese1demo)) {
     points(geese1demo[j,1]-correctionsdemo[1,2],geese1demo[j,2]-correctionsdemo[2,2],col="grey")
@@ -70,6 +69,7 @@ readline()
 invisible()
 
 out <- siarmcmcdirichlet(geese1demo,sourcesdemo,correctionsdemo)
+out <- out$output
 
 cat("Press <Enter> to continue \n")
 readline()
@@ -90,9 +90,7 @@ groupnum <- 1
 numgroups <- 1
 fullname <- "Geese plasma"
 
-# Get some column names
-colnames(out) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
-  
+
 usepars <- out[,((groupnum-1)*(numsources+numiso)+1):(groupnum*(numsources+numiso))]
 
 mybreaks <- seq(0,1,length=50)
@@ -101,7 +99,7 @@ top <- 0
 for(j in 1:numsources) {
     top <- max(c(top,max(hist(usepars[,j],plot=FALSE,breaks=mybreaks)$density)))
 }
-windows()
+newgraphwindow()
 if(fullname!=0) {
     if(numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities for group ",groupnum,sep=""),xlab="proportion",ylab="density")
     if(numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(fullname,": proportion densities",sep=""),xlab="proportion",ylab="density")
@@ -134,4 +132,3 @@ cat("Good luck using the software. \n")
 cat("Please report bugs to Andrew.Parnell@tcd.ie \n")
 
 }
-

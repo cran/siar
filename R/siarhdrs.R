@@ -1,5 +1,4 @@
-`siarhdrs` <-
-function(siardata) {
+siarhdrs <- function(siardata) {
 
 if(siardata$SHOULDRUN==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -52,8 +51,7 @@ cat("Worst parameters are ... \n")
 temp <- geweke.diag(siardata$output)[[1]]
 print(sort(c(pnorm(temp[temp<0]),1-pnorm(temp[temp>0])))[1:min(10,ncol(siardata$output))])
 
-cat("If lots of the p-values are very small , try a longer run of the MCMC. \n")
+cat("If lots of the p-values are very small, try a longer run of the MCMC. \n")
 
 
 }
-

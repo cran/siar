@@ -1,5 +1,4 @@
-`siarsinglegrouprun` <-
-function(siardata) {
+siarsinglegrouprun <- function(siardata) {
 # This function runs the single group MCMC for siar
 
 if(siardata$SHOULDRUN==FALSE || siardata$GRAPHSONLY ==TRUE) {
@@ -32,18 +31,33 @@ while(BADRUN ==TRUE) {
 }
 
 # Now run the code
-if(runchoose == 1) output <- siarmcmcdirichlet(siardata$targets,siardata$sources,siardata$corrections)
-if(runchoose == 2) output <- siarmcmcdirichlet(siardata$targets,siardata$sources,siardata$corrections,400000,200000,10000,100)
-if(runchoose == 3) output <- siarmcmcdirichlet(siardata$targets,siardata$sources,siardata$corrections,1000000,400000,20000,300)
+if(runchoose == 1) {
+    siardata$iterations <- 200000   
+    siardata$burnin <- 50000
+    siardata$howmany <- 10000
+    siardata$thinby <- 15
+}
+if(runchoose == 2) {
+    siardata$iterations <- 400000   
+    siardata$burnin <- 200000
+    siardata$howmany <- 10000
+    siardata$thinby <- 100
+}
+if(runchoose == 3) {
+    siardata$iterations <- 1000000   
+    siardata$burnin <- 400000
+    siardata$howmany <- 20000
+    siardata$thinby <- 300
+}
+siardata <- siarmcmcdirichlet(data=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,siardata=siardata)
 
-return(output)
+return(siardata)
 
 } else {
 
 cat("This data has multiple groups - choose the multi group option instead. \n \n")
-return(NULL)
+return(list(targets=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=siardata$numgroups,numdata=siardata$numdata,numsources=siardata$numsources,numiso=siardata$numiso,SHOULDRUN=siardata$SHOULDRUN,GRAPHSONLY=siardata$GRAPHSONLY,EXIT=siardata$EXIT,output=siardata$output))
 
 }
 
 }
-
