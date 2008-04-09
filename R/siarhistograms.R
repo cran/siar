@@ -51,8 +51,8 @@ if(choose==2) {
 
 newgraphwindow()
 if(siardata$TITLE!="SIAR data") {
-    if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities for group ",groupnum,sep=""),xlab="roportion",ylab="density")
-    if(siardata$numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities",sep=""),xlab="roportion",ylab="density")
+    if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities for group ",groupnum,sep=""),xlab="proportion",ylab="density")
+    if(siardata$numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities",sep=""),xlab="proportion",ylab="density")
 } else {
     if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities for group ",groupnum,sep=""),xlab="proportion",ylab="density")
     if(siardata$numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main="Proportion densities",xlab="proportion",ylab="density")
@@ -76,7 +76,7 @@ if(choose==1) {
 for(j in 1:siardata$numsources) {
 newgraphwindow()
 if(siardata$TITLE!="SIAR data") {
-    if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities for group ",groupnum,": ",sourcenames[j],sep=""),xlab="oroportion",ylab="density")
+    if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities for group ",groupnum,": ",sourcenames[j],sep=""),xlab="proportion",ylab="density")
     if(siardata$numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities: ",sourcenames[j],sep=""),xlab="proportion",ylab="density")
 } else {
     if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste("Proportion densities for group ",groupnum,": ",sourcenames[j],sep=""),xlab="proportion",ylab="density")

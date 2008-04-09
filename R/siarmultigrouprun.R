@@ -6,7 +6,7 @@ if(siardata$SHOULDRUN==FALSE || siardata$GRAPHSONLY ==TRUE) {
     cat("Press <Enter> to continue")
     readline()
     invisible()
-    return(NULL)
+    return(siardata)
 }
 
 cat("Run SIAR for multiple groups. \n")

@@ -1,10 +1,6 @@
 siarmenu <- function() {
 
-library(coda)
-library(hdrcde)
-library(MASS)
-
-siarversion <-"2.1"
+siarversion <-"2.2"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))
@@ -32,6 +28,7 @@ choose <- menu(choices,title = title)
 if(choose == 1) {
 
 siardata <- loadsiardata(siarversion)
+siarplotdata(siardata)
 
 cat("Press <Enter> to continue")
 readline()

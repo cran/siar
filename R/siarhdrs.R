@@ -39,6 +39,21 @@ for(i in 1:ncol(siardata$output)) {
 
 print(hdrsummary)
 
+if(any(hdrsummary>5)) {
+  cat("\n")
+  cat("=============== READ THIS =============== \n")
+  cat("There may be some problems with this data.\n")
+  cat("Some of the standard deviations seem especially large. \n")
+  cat("Please check to see whether the target data lie outside \n")
+  cat("the range of the sources. \n \n")
+  cat("SIAR rates the problem with this data set as: \n")
+  if(any(hdrsummary>5)) cat("Mild - but still may affect results. \n")
+  if(any(hdrsummary>20)) cat("Severe - possibly severely affecting results \n")
+  if(any(hdrsummary>50)) cat("Extremely severe - almost certainly affecting results \n")
+  cat("======================================== \n")
+
+}
+
 cat("Press <Enter> to continue...")
 readline()
 invisible()

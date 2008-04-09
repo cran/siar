@@ -237,69 +237,6 @@ if(choose2==1 || choose2==2) {
     }
 }
 
-############################################################################
-# Graphs for 2 isotope version
-
-if(GRAPHSONLY == FALSE) {
-
-BADPLOTGRAPH <- FALSE
-while(BADPLOTGRAPH == FALSE) {
-    cat("Do you wish to plot the data? (y/n) \n")
-    PLOTGRAPH <- scan(what="",nlines=1,quiet=TRUE)
-    if(length(PLOTGRAPH)>0) BADPLOTGRAPH <- TRUE
-}
-
-if(PLOTGRAPH == "y" || PLOTGRAPH == "yes") {
-if((ncol(sources)-1)/2 == 2) {
-cat("\n")
-cat("\n")
-cat("Now plotting data points ...  \n")
-cat("Click to position the legend. \n")
-if(numgroups==1) {
-    xmins <- min(c(sources[,2]-3*sources[,3],targets[,1]-corrections[1,2]-3*corrections[1,3]))
-    xmaxs <- max(c(sources[,2]+3*sources[,3],targets[,1]-corrections[1,2]+3*corrections[1,3]))
-    ymins <- min(c(sources[,4]-3*sources[,5],targets[,2]-corrections[2,2]-3*corrections[2,3]))
-    ymaxs <- max(c(sources[,4]+3*sources[,5],targets[,2]-corrections[2,2]+3*corrections[2,3]))
-    newgraphwindow()
-    if(corrections[1,1]==0) plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main=TITLE,xlab=colnames(targets)[1],ylab=colnames(targets)[2])
-    if(corrections[1,1]!=0) plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main=TITLE,xlab=corrections[1,1],ylab=corrections[2,1])
-    for(j in 1:nrow(targets)) {
-        points(targets[j,1]-corrections[1,2],targets[j,2]-corrections[2,2],col="grey")
-        lines(c(targets[j,1]-corrections[1,2]-2*corrections[1,3],targets[j,1]-corrections[1,2]+2*corrections[1,3]),c(targets[j,2]-corrections[2,2],targets[j,2]-corrections[2,2]),col="grey")
-        lines(c(targets[j,1]-corrections[1,2],targets[j,1]-corrections[1,2]),c(targets[j,2]-corrections[2,2]-2*corrections[2,3],targets[j,2]-corrections[2,2]+2*corrections[2,3]),col="grey")
-    }
-    points(cbind(sources[,2],sources[,4]),pch=15,col=seq(1,nrow(sources)))
-    for(i in 1:nrow(sources)) {
-        lines(c(sources[i,2]-2*sources[i,3],sources[i,2]+2*sources[i,3]),c(sources[i,4],sources[i,4]),col=i)
-        lines(c(sources[i,2],sources[i,2]),c(sources[i,4]-2*sources[i,5],sources[i,4]+2*sources[i,5]),col=i)
-    }
-    mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
-    legend(locator(1),legend=c(as.character(sources[,1]),"data"),lty=c(rep(1,nrow(sources)),1),pch=c(rep(15,nrow(sources)),1),col=c(seq(1,nrow(sources)),"grey"),bty="n")
-} else {
-    xmins <- min(c(sources[,2]-3*sources[,3],targets[,2]-corrections[1,2]-3*corrections[1,3]))
-    xmaxs <- max(c(sources[,2]+3*sources[,3],targets[,2]-corrections[1,2]+3*corrections[1,3]))
-    ymins <- min(c(sources[,4]-3*sources[,5],targets[,3]-corrections[2,2]-3*corrections[2,3]))
-    ymaxs <- max(c(sources[,4]+3*sources[,5],targets[,3]-corrections[2,2]+3*corrections[2,3]))
-    try(x11(),silent==TRUE)
-    if(corrections[1,1]==0) plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main=TITLE,xlab=colnames(targets)[2],ylab=colnames(targets)[3])
-    if(corrections[1,1]!=0) plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main=TITLE,xlab=corrections[1,1],ylab=corrections[2,1])
-    for(j in 1:nrow(targets)) {
-        points(targets[j,2]-corrections[1,2],targets[j,3]-corrections[2,2],col="grey")
-        lines(c(targets[j,2]-corrections[1,2]-2*corrections[1,3],targets[j,2]-corrections[1,2]+2*corrections[1,3]),c(targets[j,3]-corrections[2,2],targets[j,3]-corrections[2,2]),col="grey")
-        lines(c(targets[j,2]-corrections[1,2],targets[j,2]-corrections[1,2]),c(targets[j,3]-corrections[2,2]-2*corrections[2,3],targets[j,3]-corrections[2,2]+2*corrections[2,3]),col="grey")
-    }
-    points(cbind(sources[,2],sources[,4]),pch=15,col=seq(1,nrow(sources)))
-    for(i in 1:nrow(sources)) {
-        lines(c(sources[i,2]-2*sources[i,3],sources[i,2]+2*sources[i,3]),c(sources[i,4],sources[i,4]),col=i)
-        lines(c(sources[i,2],sources[i,2]),c(sources[i,4]-2*sources[i,5],sources[i,4]+2*sources[i,5]),col=i)
-    }
-    mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
-    legend(locator(1),legend=c(as.character(sources[,1]),"data"),lty=c(rep(1,nrow(sources)),1),pch=c(rep(15,nrow(sources)),1),col=c(seq(1,nrow(sources)),"grey"),bty="n")
-}
-}
-}
-}
-
 return(list(targets=targets,sources=sources,corrections=corrections,PATH=PATH,TITLE=TITLE,numgroups=numgroups,numdata=numdata,numsources=numsources,numiso=numiso,SHOULDRUN=SHOULDRUN,GRAPHSONLY=GRAPHSONLY,EXIT=EXIT,output=output))
 
 }
