@@ -39,7 +39,7 @@ xmaxs <- max(c(sourcesdemo[,2]+3*sourcesdemo[,3],geese1demo[,1]+correctionsdemo[
 ymins <- min(c(sourcesdemo[,4]-3*sourcesdemo[,5],geese1demo[,2]+correctionsdemo[2,2]))
 ymaxs <- max(c(sourcesdemo[,4]+3*sourcesdemo[,5],geese1demo[,2]+correctionsdemo[2,2]))
 newgraphwindow()
-plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main="Geese demo data",xlab=correctionsdemo[1,1],ylab=correctionsdemo[2,1])
+plot(1,1,type="n",xlim=c(xmins,xmaxs),ylim=c(ymins,ymaxs),main="Geese demo data",xlab="d15N",ylab="d13C")
 for(j in 1:nrow(geese1demo)) {
     points(geese1demo[j,1]-correctionsdemo[1,2],geese1demo[j,2]-correctionsdemo[2,2],col="grey")
     lines(c(geese1demo[j,1]-correctionsdemo[1,2]-2*correctionsdemo[1,3],geese1demo[j,1]-correctionsdemo[1,2]+2*correctionsdemo[1,3]),c(geese1demo[j,2]-correctionsdemo[2,2],geese1demo[j,2]-correctionsdemo[2,2]),col="grey")

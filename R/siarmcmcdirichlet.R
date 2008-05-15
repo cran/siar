@@ -41,9 +41,9 @@ siarmcmcdirichlet <- function(data,sources,corrections=0,iterations=200000,burni
     parameters <- matrix(1,ncol=(numsources+numiso)*numgroups,nrow=(siardata$iterations-siardata$burnin)/siardata$thinby)
     
     if(!is.data.frame(corrections)) {
-        correctionsdata <- matrix(0,ncol=2,nrow=numiso)
+        correctionsdata <- matrix(0,ncol=2*numiso,nrow=numsources)
     } else {
-        correctionsdata <- corrections[,2:3]
+        correctionsdata <- corrections[,2:(2*numiso+1)]
     }
 
     BAD <- FALSE
@@ -90,7 +90,7 @@ siarmcmcdirichlet <- function(data,sources,corrections=0,iterations=200000,burni
     }
 
     if(BAD==FALSE) {
-        tempout <- .C("siarmcmcmultigroupdirichlet",as.integer(numdata),as.integer(numsources),as.integer(numiso),
+        tempout <- .C("siarmcmcv3",as.integer(numdata),as.integer(numsources),as.integer(numiso),
         as.integer(numgroups),as.integer(startgroup),as.integer(endgroup),as.integer(siardata$iterations),
         as.integer(siardata$burnin),as.integer(siardata$howmany),as.integer(siardata$thinby),as.double(prior),as.data.frame(data2),
         as.data.frame(sourcedata),as.data.frame(correctionsdata),as.data.frame(parameters))

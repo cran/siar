@@ -17,7 +17,7 @@ if(length(siardata$output)==0) {
 BADFILE <- TRUE
 while(BADFILE == TRUE) {
     cat("This option will save all the model details to a .Rdata file.\n")
-    cat("It can be loaded back in via siarmenu() of by the command load(file).\n")
+    cat("It can be loaded back in via siarmenu() or by the command loadsiardata(file).\n")
     cat("Enter a directory location where the output parameters will reside: \n")
 
     outputfileloc <- scan(what="",nlines=1,quiet=TRUE)

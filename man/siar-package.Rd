@@ -16,8 +16,8 @@ example data on Geese plasma is included for illustration.
 \tabular{ll}{
 Package: \tab siar\cr
 Type: \tab Package\cr
-Version: \tab 2.1\cr
-Date: \tab 2008-01-28\cr
+Version: \tab 3.1\cr
+Date: \tab 2008-05-15\cr
 License: \tab GPL (>= 2)\cr
 }
 For a demo of how to use the package, type siarmenu() and then choose option 9,

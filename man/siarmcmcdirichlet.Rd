@@ -17,7 +17,8 @@ siarmcmcdirichlet(data, sources, corrections = 0, iterations=200000, burnin=5000
   \item{burnin}{ The size of the burnin }
   \item{howmany}{ How often to report the number of iterations. }
   \item{thinby}{ The amount of thinning of the iterations. }
-  \item{prior}{ The dirichlet distribution prior parameters, the default is rep(1,numsources). }
+  \item{prior}{ The dirichlet distribution prior parameters, the default is rep(1,numsources). New parameters
+  can be estimated via the function \code{\link{siarelicit}}.}
   \item{siardata}{ A list containing some or all of the following parts: targets, sources, corrections,
   PATH, TITLE, numgroups, numdata, numsources, numiso, SHOULDRUN, GRAPHSONLY, EXIT, and output. For more details
   of these inputs see the \code{\link{siarmenu}} function. }
@@ -42,7 +43,7 @@ siarmcmcdirichlet(data, sources, corrections = 0, iterations=200000, burnin=5000
 \references{ }
 \author{ Andrew Parnell }
 \note{ }
-\seealso{ \code{\link{siarmenu}} }
+\seealso{ \code{\link{siarmenu}}, \code{\link{siarelicit}} }
 \examples{
 # Should take around 10 seconds to run
 #out <- siarmcmcdirichlet(geese1demo,plantsdemo,correctionsdemo)

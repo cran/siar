@@ -1,11 +1,11 @@
-\name{loadsiardata}
-\alias{loadsiardata}
+\name{siarloaddata}
+\alias{siarloaddata}
 \title{ Loads in siar data }
 \description{
-    Loads in siar data
+    Loads in siar data via a neat menu-driven interface.
 }
 \usage{
-loadsiardata(siarversion)
+siarloaddata(siarversion)
 }
 \arguments{
   \item{siarversion}{ \item{siarversion}{ The siar version number as a string. } }

@@ -143,4 +143,9 @@ siarproportionbysourceplot <- function (siardata, siarversion = 0,
         }
     }
 
+cat("Please maximise this graph before saving or printing. \n")
+cat("Press <Enter> to continue")
+readline()
+invisible()
+
 }

@@ -44,12 +44,16 @@ if(any(hdrsummary>5)) {
   cat("=============== READ THIS =============== \n")
   cat("There may be some problems with this data.\n")
   cat("Some of the standard deviations seem especially large. \n")
-  cat("Please check to see whether the target data lie outside \n")
-  cat("the range of the sources. \n \n")
+  cat("Please chec4k to see whether the target data lie outside \n")
+  cat("the convex hull implied by the sources. \n \n")
   cat("SIAR rates the problem with this data set as: \n")
-  if(any(hdrsummary>5)) cat("Mild - but still may affect results. \n")
-  if(any(hdrsummary>20)) cat("Severe - possibly severely affecting results \n")
-  if(any(hdrsummary>50)) cat("Extremely severe - almost certainly affecting results \n")
+  if(any(hdrsummary>50)) {
+    cat("Extremely severe - almost certainly affecting results \n")
+  } else if(any(hdrsummary>20)) {
+    cat("Severe - possibly severely affecting results \n")
+  } else if(any(hdrsummary>5)) {
+    cat("Mild - but still may affect results. \n")
+  }
   cat("======================================== \n")
 
 }

@@ -1,6 +1,6 @@
 siarmenu <- function() {
 
-siarversion <-"2.2"
+siarversion <-"3.1"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))
@@ -27,8 +27,15 @@ choose <- menu(choices,title = title)
 # Section 1
 if(choose == 1) {
 
-siardata <- loadsiardata(siarversion)
-siarplotdata(siardata)
+siardata <- siarloaddata(siarversion)
+
+if(siardata$SHOULDRUN==TRUE) {
+  cat("Do you with to plot the data? (y/n) \n")
+  plotans <- scan(what="",nlines=1,quiet=TRUE)
+  if(plotans=="yes" || plotans=="y") {
+    siarplotdata(siardata)
+  }
+}
 
 cat("Press <Enter> to continue")
 readline()
@@ -97,12 +104,6 @@ invisible()
 if(choose == 6) {
 
 siarproportionbysourceplot(siardata,siarversion)
-
-cat("Please maximise this graph before saving or printing. \n")
-cat("Press <Enter> to continue")
-readline()
-invisible()
-
 
 }
 

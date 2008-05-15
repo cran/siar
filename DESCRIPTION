@@ -1,11 +1,11 @@
 Package: siar
 Type: Package
 Title: Stable Isotope Analysis in R
-Version: 2.2
-Date: 2008-04-09
+Version: 3.1
+Date: 2008-05-15
 Depends: hdrcde, coda, MASS
 Author: Andrew Parnell
 Maintainer: Andrew Parnell <Andrew.Parnell@tcd.ie>
 Description: This package takes data on organism isotopes and fits a Bayesian model to their dietary habits based upon a Gaussian likelihood with a mixture dirichlet-distributed prior on the mean.
 License: GPL (>= 2)
-Packaged: Wed Apr  9 18:41:54 2008; parnella
+Packaged: Mon May 19 12:57:11 2008; parnella

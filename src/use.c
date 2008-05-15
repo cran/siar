@@ -2,7 +2,9 @@
 
 #include"use.h"
 #include<Rmath.h>
+#include<math.h>
 #include<R.h>
+#define eps 1.0e-32
 
 double GetLik(double *X,double mean,double sd,int datasize)
 {
@@ -155,3 +157,188 @@ return(logdens);
 
 }
 
+void GaussJordan(int N, double **b, double **y)
+{
+
+
+
+//use generate_identity function to make y the indentity. Then call GaussJordan
+//with a the matrix to invert. a gets turned into the identity, so make a copy
+//if you need to keep it. N is the dimension of the matrix. 
+	int             c, r, r_max, i, j;
+	double          temp, v_v, v_max, factor = 0.0;
+
+// Make it non-destructive
+double a[N][N];
+
+for(i=0;i<N;i++) {
+  for(j=0;j<N;j++) {
+    a[i][j] = b[i][j];
+  }
+}
+
+	/* Loop over all columns of A */
+	for (c = 0; c < N; c++)
+	{			/* Find row with the maximum value absolute
+				 * value. */
+		r_max = c;
+		v_max = fabs(a[c][c]);
+		for (r = c + 1; r < N; r++)
+		{
+			v_v = fabs(a[r][c]);
+			if (v_v > v_max)
+			{
+				r_max = r;
+				v_max = v_v;
+			}
+		} /* Switch rows if necessary */ if (r_max != c)
+		{
+			for (j = c; j < N; j++)
+			{
+				temp = a[c][j];
+				a[c][j] = a[r_max][j];
+				a[r_max][j] = temp;
+			} for (j = 0; j < N; j++)
+			{
+				temp = y[c][j];
+				y[c][j] = y[r_max][j];
+				y[r_max][j] = temp;
+			}
+		}		/* Rescale current row so that diagonal
+		    element is 1 */ factor = a[c][c];
+		if (fabs(factor) <= eps)
+		{
+			Rprintf("singular matrix\n");
+			exit(0);
+		} for (j = c; j < N; j++)
+		{
+			a[c][j] /= factor;
+		} for (j = 0; j < N; j++)
+		{
+			y[c][j] /= factor;
+		} /* Subtract current row from all rows below. */
+		for (r = c + 1; r < N; r++)
+		{
+			factor = a[r][c];
+			for (j = c; j < N; j++)
+				a[r][j] -= factor * a[c][j];
+			for (j = 0; j < N; j++)
+				y[r][j] -= factor * y[c][j];
+		}
+	
+	}
+	/*loop over all rows from 1 to end*/
+	for (c = 1; c < N; c++)
+		{
+		/*Subtract current row from all rows above.*/
+		for (j = 0; j < N-c; j++)
+			{
+			factor = a[j][N-c];
+			for (r = 0; r < N; r++)
+				{
+				a[j][r] =a[j][r] - factor * a[N-c][r];
+				y[j][r] =y[j][r] - factor * y[N-c][r];
+				}
+			}
+		}
+	return;
+}
+
+double **generate_identity (int N)
+{
+double **matrix;
+matrix = (double **)calloc(N, sizeof(double *));
+int i;
+for (i = 0; i < N; i ++)
+        {
+        matrix[i] = (double *)calloc(N, sizeof(double));
+        }
+for (i = 0; i < N; i ++)
+        {
+        /*put ones on the diagonal. Calloc puts zeros off it*/
+        matrix[i][i] = 1.0;
+        }
+return matrix;
+}
+
+float deter(double **a,int forder)
+{
+  double b[forder][forder];
+  int i,j,k;
+  float mult;
+  float deter=1;
+  
+  for(i=0;i<forder;i++) {
+  	for(j=0;j<forder;j++) {
+      b[i][j] = a[i][j];
+	  }
+	}
+	
+  for(i=0;i<forder;i++) {
+  	for(j=0;j<forder;j++) {
+  	  mult=b[j][i]/b[i][i];
+	  for(k=0;k<forder;k++)
+	  {
+		if(i==j) break;
+		b[j][k]=b[j][k]-b[i][k]*mult;
+	  }
+	}
+  }
+  for(i=0;i<forder;i++)
+  {
+	deter=deter*b[i][i];
+  }
+  return(deter);
+}
+
+
+double dlognormal(double *x, double *mean, double **var,int len)
+{
+
+// The log density of the multivariate normal distribution
+// (-nrow(y)/2)*log(2*pi)-0.5*log(det(cov))-0.5*t(y-mean)%*%solve(cov)%*%(y-mean)
+double dens,determinant,**invvar,**vartemp,bigsum=0;
+int i,j;
+
+vartemp = (double **)calloc(len, sizeof(double *));
+for (i=0;i<len;i++) {
+    vartemp[i] = (double *)calloc(len, sizeof(double));
+}
+
+for(i=0;i<len;i++) {
+  for(j=0;j<len;j++) {
+    vartemp[i][j]=var[i][j];
+  }
+}
+
+determinant = deter(vartemp,len);
+invvar = generate_identity(len);
+GaussJordan(len,var,invvar);
+
+for(i=0;i<len;i++) {
+  for(j=0;j<len;j++) {
+    bigsum += (x[j]-mean[j])*(x[i]-mean[i])*invvar[i][j];
+  }
+}
+
+dens = -(double)len/2 * log(2*PI) - 0.5*log(determinant)-0.5*bigsum;
+
+return(dens);
+
+}
+
+double daddlogdens(double *prop, int len, double *mu, double **sigma) {
+
+// This function calculates the log density of a additive logistic transformed
+// set of proportions
+
+double y[len-1],dens;
+int i;
+
+for(i=0;i<len-1;i++) y[i] = log(prop[i]/(prop[i]+1));
+
+dens = dlognormal(y, mu, sigma, len-1);
+
+return(dens);
+
+}

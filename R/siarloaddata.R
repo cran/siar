@@ -1,4 +1,4 @@
-loadsiardata <- function(siarversion) {
+siarloaddata <- function(siarversion) {
 
 choices2 <- c("Load data in from files","Load in R objects","Load in previous output")
 title <- "The available options are:"
@@ -6,7 +6,7 @@ choose2 <- menu(choices2,title = title)
 
 ############################################################################
 
-if(choose2==0) return(list(EXIT=FALSE))
+if(choose2==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
 
 ############################################################################
 # Load in data from files
@@ -15,20 +15,20 @@ if(choose2==1) {
 
 cat("To run siar, you need to have created at least 2 text files. \n")
 cat("The first must contain the target isotope measurements in either \n")
-cat("two columns with no group number or 3 columns with a group label \n")
+cat("two columns with no group number or 3 columns with a group label. \n")
 cat("The second file must contain a column of the different source names \n")
-cat("followed by the isotope measurements for each in a seperate columns \n \n")
+cat("followed by the isotope measurements for each in a seperate columns. \n \n")
 cat("Optionally, a third file can be created which contains the fractionation \n")
-cat("correction means and standard deviations for each isotope \n \n")
+cat("correction means and standard deviations for each isotope. \n \n")
 cat("See the demo and the included data files for more information \n")
-cat("On the data input format \n \n")
+cat("on the data input format. \n \n")
 
 BADPATH <- TRUE
 while(BADPATH == TRUE) {
     cat("First input the directory at which the files can be found: \n")
     PATH <- scan(what="",nlines=1,quiet=TRUE)
     while(length(PATH)==0) PATH <- scan(what="",nlines=1,quiet=TRUE)
-    if(PATH==0) return(list(EXIT=FALSE))
+    if(PATH==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
     if(file.exists(PATH)) {
         BADPATH <- FALSE
     } else {
@@ -42,7 +42,7 @@ while(BADDATA == TRUE) {
     cat("(including the file extension eg .txt, .dat, etc) \n")
     DATAFILE <- scan(what="",nlines=1,quiet=TRUE)
     while(length(DATAFILE)==0) DATAFILE <- scan(what="",nlines=1,quiet=TRUE)
-    if(DATAFILE==0) return(list(EXIT=FALSE))    
+    if(DATAFILE==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
     if(file.exists(paste(PATH,"/",DATAFILE,sep=""))) {
         BADDATA <- FALSE
     } else {
@@ -56,7 +56,7 @@ while(BADSOURCES == TRUE) {
     cat("(including the file extension eg .txt, .dat, etc) \n")    
     SOURCEFILE <- scan(what="",nlines=1,quiet=TRUE)
     while(length(SOURCEFILE)==0) SOURCEFILE <- scan(what="",nlines=1,quiet=TRUE)
-    if(SOURCEFILE==0) return(list(EXIT=FALSE))
+    if(SOURCEFILE==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
     if(file.exists(paste(PATH,"/",SOURCEFILE,sep=""))) {
         BADSOURCES <- FALSE
     } else {
@@ -71,7 +71,7 @@ while(BADCORRECTIONS == TRUE) {
     cat("or leave blank to use pre-corrected values \n")
     CORRECTIONSFILE <- scan(what="",nlines=1,quiet=TRUE)
     if(length(CORRECTIONSFILE)==0) CORRECTIONSFILE <- -999
-    if(CORRECTIONSFILE==0) return(list(EXIT=FALSE))
+    if(CORRECTIONSFILE==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
     if(file.exists(paste(PATH,"/",CORRECTIONSFILE,sep=""))) {
         BADCORRECTIONS <- FALSE
     } else {
@@ -90,12 +90,12 @@ if(CORRECTIONSFILE != -999) corrections <- as.data.frame(read.table(paste(PATH,"
 cat("Done \n \n")
 
 # Finally sort everything out so its in proper siar format
-if(corrections[1,1] == 0) corrections <- matrix(0,nrow=1+(ncol(sources)-1)/2,ncol=3)
 numgroups <- 1
 if(targets[1,1]%%1 == 0) numgroups <- max(targets[,1])
 numsources <-nrow(sources)
 numdata <- nrow(targets)
 numiso <- (ncol(sources)-1)/2
+if(corrections[1,1] == 0) corrections <- matrix(0,nrow=nrow(sources),ncol=2*numiso+1)
 SHOULDRUN <- TRUE
 GRAPHSONLY <- FALSE
 EXIT <- FALSE
@@ -114,7 +114,7 @@ dataexists <- FALSE
 while(dataexists == FALSE) {
     datatemp <- scan(what="",nlines=1,quiet=TRUE)
     while(length(datatemp)==0) datatemp <- scan(what="",nlines=1,quiet=TRUE)
-    if(datatemp==0) return(list(EXIT=FALSE))
+    if(datatemp==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
     if(!exists(datatemp)) {
         cat("Object not found. Try again or Esc to quit. \n")
     } else {
@@ -130,7 +130,7 @@ sourcesexists <- FALSE
 while(sourcesexists == FALSE) {
     sourcestemp <- scan(what="",nlines=1,quiet=TRUE)
     while(length(sourcestemp)==0) sourcestemp <- scan(what="",nlines=1,quiet=TRUE)
-    if(sourcestemp==0) return(list(EXIT=FALSE))
+    if(sourcestemp==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
     if(!exists(sourcestemp)) {
         cat("Object not found. Try again or Esc to quit. \n")
     } else {
@@ -150,7 +150,7 @@ while(correctionsexists == FALSE) {
         corrections <- matrix(0,nrow=1,ncol=1)
         correctionsexists <- TRUE
     } else {
-        if(correctionstemp==0) return(list(EXIT=FALSE))
+        if(correctionstemp==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
         if(!exists(correctionstemp)) {
             cat("Object not found. Try again or Esc to quit. \n")
         } else {
@@ -161,12 +161,12 @@ while(correctionsexists == FALSE) {
 }
 
 # Finally sort everything out so its in proper siar format
-if(corrections[1,1] == 0) corrections <- matrix(0,nrow=1+(ncol(sources)-1)/2,ncol=3)
 numgroups <- 1
 if(targets[1,1]%%1 == 0) numgroups <- max(targets[,1])
 numsources <-nrow(sources)
 numdata <- nrow(targets)
 numiso <- (ncol(sources)-1)/2
+if(corrections[1,1] == 0) corrections <- matrix(0,nrow=numsources,ncol=2*numiso+1)
 PATH <- NULL
 SHOULDRUN <- TRUE
 GRAPHSONLY <- FALSE
@@ -194,7 +194,7 @@ while(BADOUTPUT == TRUE) {
 
     OUTPUTFILE <- scan(what="",nlines=1,quiet=TRUE)
     while(length(OUTPUTFILE)==0) OUTPUTFILE <- scan(what="",nlines=1,quiet=TRUE)
-    if(OUTPUTFILE==0) return(list(EXIT=FALSE))
+    if(OUTPUTFILE==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
     if(file.exists(OUTPUTFILE)) {
         BADOUTPUT <- FALSE
     } else {
@@ -233,7 +233,10 @@ if(choose2==1 || choose2==2) {
     if(length(TITLE)==0) {
         TITLE <- "SIAR data"
     } else {
-        if(TITLE==0) return(NULL)
+        if(TITLE==0) {
+          cat("Data not loaded. \n")
+          return(EXIT=FALSE,SHOULDRUN=FALSE)
+        }
     }
 }
 

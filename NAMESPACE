@@ -2,5 +2,5 @@ useDynLib(siar)
 
 import(hdrcde, coda, MASS)
 
-export("siarmenu","panelhist","panelcor","panelcontour","newgraphwindow","siardemo","siarhdrs","siarhistograms","siarmatrixplot","siarmcmcdirichlet","siarsinglegrouprun","siarmultigrouprun","siarproportionbysourceplot","siarsaveoutput","loadsiardata","siarplotdata","geese1demo","geese2demo","sourcesdemo","correctionsdemo","allgroups")
+export("siarmenu","panelhist","panelcor","panelcontour","newgraphwindow","siardemo","siarhdrs","siarhistograms","siarmatrixplot","siarmcmcdirichlet","siarsinglegrouprun","siarmultigrouprun","siarproportionbysourceplot","siarsaveoutput","siarloaddata","siarplotdata","geese1demo","geese2demo","sourcesdemo","correctionsdemo","allgroups")
 

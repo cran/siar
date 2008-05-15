@@ -3,16 +3,18 @@
 \docType{data}
 \title{ Fractionation correction values for the geese data}
 \description{
-  A 3 column, 2 row matrix containing the mean and standard deviation
-  of the correction values for each of the 2 isotopes used
+  A 5 column, 4 row matrix containing the mean and standard deviation
+  of the correction values for each of the 2 isotopes used for each different source
 }
 \usage{data(correctionsdemo)}
 \format{
-  A data frame with 2 observations on the following 3 variables.
+  A data frame with 4 observations on the following 5 variables.
   \describe{
-    \item{\code{Isotope}}{Name of the isotope}
-    \item{\code{Mean}}{The mean correction value}
-    \item{\code{Sd}}{The standard deviation correction value}
+    \item{\code{Source}}{The source name. }
+    \item{\code{Mean15N}}{The mean correction value for 15N}
+    \item{\code{Sd15N}}{The standard deviation correction value for 15N}
+    \item{\code{Mean13C}}{The mean correction value for 13C}
+    \item{\code{Sd13C}}{The standard deviation correction value for 13C}
   }
 }
 \details{
