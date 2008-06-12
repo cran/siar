@@ -19,7 +19,17 @@ cat("Plots of single groups proportions. \n")
 if(siardata$numgroups>1) {
     cat("Enter the group number of the proportions you wish to plot \n")
     cat("Click on the graph to position the legend... \n")
-    groupnum <- as.integer(scan(what="integer",nlines=1,quiet=TRUE))
+    BADGROUP <- TRUE
+    while(BADGROUP==TRUE) {
+      groupnum <- as.integer(scan(what="",nlines=1,quiet=TRUE))
+      if(length(groupnum)>0) {
+        BADGROUP <- FALSE
+        if(groupnum>siardata$numgroups) {
+          BADGROUP <- TRUE
+          cat("Group number out of range. \n")
+        }
+      }
+    }
 } else {
     groupnum <- 1
 }
@@ -67,7 +77,7 @@ for(j in 1:siardata$numsources) {
     }
 }
 
-legend(locator(1),legend=sourcenames,col=seq(1,5),lty=1,lwd=3,bty="n")
+legend(locator(1),legend=sourcenames,col=seq(1,siardata$numsources),lty=1,lwd=3,bty="n")
 
 }
 
