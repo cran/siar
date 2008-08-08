@@ -12,7 +12,7 @@ siarmenu()
 \note{
 }
 \details{
-  The internal workings of this function uses a list called siardata conatining some or all of the following parts: 
+  The internal workings of this function uses a list called siardata containing some or all of the following parts: 
   targets, sources, corrections, PATH, TITLE, numgroups, numdata, numsources, numiso, SHOULDRUN, GRAPHSONLY, 
   EXIT, and output. Targets, sources and corrections are the isotopic values, source values and fractionation
   correction values respectively. PATH is the path used to get to the files. TITLE is the title to be used on 

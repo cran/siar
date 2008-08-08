@@ -43,7 +43,7 @@ siarmcmcdirichlet <- function(data,sources,corrections=0,iterations=200000,burni
     if(!is.data.frame(corrections)) {
         correctionsdata <- matrix(0,ncol=2*numiso,nrow=numsources)
     } else {
-        correctionsdata <- corrections[,2:(2*numiso+1)]
+        correctionsdata <- matrix(as.double(as.matrix(corrections[,2:(2*numiso+1)])),nrow=numsources)
     }
 
     BAD <- FALSE

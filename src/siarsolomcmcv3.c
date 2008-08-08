@@ -26,7 +26,6 @@ Rprintf("Thinning by: %i \n",*thinby);
 Rprintf("Number of isotopes: %i \n",*numiso);
 Rprintf("Number of sources: %i \n",*numplants);
 
-
 // Declare some variables and read in everything
 double thedatabig[*numdata][*numiso],theplants[*numplants][*numiso*2],thecorrections[*numplants][2*(*numiso)];
 float theparameters[(*iterations-*burnin)/(*thinby)][(*numiso+*numplants)*(*numgroups)];
@@ -44,7 +43,9 @@ for(i=0;i<*numplants;i++) {
     }
 }
 for(i=0;i<*numplants;i++) {
-    for(j=0;j<2*(*numiso);j++) thecorrections[i][j] = corrections[j][i+3];
+    for(j=0;j<2*(*numiso);j++) {
+        thecorrections[i][j] = corrections[j][i+3];
+    }
 }
 
 for(i=0;i<(*iterations-*burnin)/(*thinby);i++) {

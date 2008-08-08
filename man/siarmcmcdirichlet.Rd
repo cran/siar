@@ -46,7 +46,7 @@ siarmcmcdirichlet(data, sources, corrections = 0, iterations=200000, burnin=5000
 \seealso{ \code{\link{siarmenu}}, \code{\link{siarelicit}} }
 \examples{
 # Should take around 10 seconds to run
-#out <- siarmcmcdirichlet(geese1demo,plantsdemo,correctionsdemo)
+#out <- siarmcmcdirichlet(geese1demo,sourcesdemo,correctionsdemo)
 }
 \keyword{ programming }
 \keyword{ models }

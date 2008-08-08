@@ -124,9 +124,9 @@ invisible()
 
 cat("With more complicated data sets (see geese2demo), you can fit the model \n")
 cat("to multiple groups and produce different types of plots \n")
-cat("For advanced users, the function siarmcmc() will allow runs \n")
+cat("For advanced users, the function siarmcmcdirichlet() will allow runs \n")
 cat("with different run parameters (such as the number of iterations). \n")
-cat("Type help(siarmcmc) for more details. \n \n")
+cat("Type help(siarmcmcdirichlet) for more details. \n \n")
 
 cat("Good luck using the software. \n")
 cat("Please report bugs to Andrew.Parnell@tcd.ie \n")

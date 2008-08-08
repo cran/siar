@@ -26,8 +26,8 @@ Rprintf("Number of isotopes: %i \n",*numiso);
 Rprintf("Number of sources: %i \n",*numplants);
 
 // Declare some variables and read in everything
-double thedatabig[*numdata][*numiso],theplants[*numplants][*numiso*2],thecorrections[*numplants][2*(*numiso)];
 float theparameters[(*iterations-*burnin)/(*thinby)][(*numiso+*numplants)*(*numgroups)];
+double thedatabig[*numdata][*numiso],theplants[*numplants][*numiso*2],thecorrections[*numplants][2*(*numiso)];
 int groupsize;
 
 // Read in each in turn from the data

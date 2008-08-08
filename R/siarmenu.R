@@ -1,6 +1,6 @@
 siarmenu <- function() {
 
-siarversion <-"3.2"
+siarversion <-"3.3"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))
@@ -18,7 +18,17 @@ siardata$GRAPHSONLY <- FALSE
 while(siardata$EXIT==FALSE)
 {
 
-choices <- c("Load in some data (run this first)","Run SIAR for a single group","Run SIAR for multiple groups","Plot single group proportions","Matrix plot of proportions","Plot of proportions by source","Save parameter output to a file","Summary information and convergence diagnostics","Demo (for first time users)","Exit")
+choices <- c("Load in some data (run this first)",
+          "Run SIAR for a single group",
+          "Run SIAR for multiple groups",
+          "Plot single group proportions",
+          "Matrix plot of proportions",
+          "Plot of proportions by source",
+          "Save parameter output to a file",
+          "Summary information and convergence diagnostics",
+          "Demo (for first time users)",
+          "Exit")
+          
 title <- "The available options are:"
 choose <- menu(choices,title = title)
 
@@ -77,7 +87,12 @@ invisible()
 # Section 4
 if(choose == 4) {
 
-siarhistograms(siardata,siarversion)
+choices2 <- c("Traditional (isosource) plot","*NEW* proportions plot")
+          
+title2 <- "Traditional or new style plot?"
+choose2 <- menu(choices2,title = title2)
+if(choose2==1) siarhistograms(siardata,siarversion)
+if(choose2==2) siarproportionbygroupplot(siardata,siarversion)
 
 cat("Press <Enter> to continue")
 readline()
