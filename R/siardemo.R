@@ -4,7 +4,8 @@ cat("==================== Demo ==================== \n \n")
 cat("This is a simple demo using the Geese data provided \n")
 cat("with the package. The data are loaded into the R workspace \n")
 cat("but are also available as text files in the package directory. \n")
-cat("The data are called geese1demo, sourcesdemo and correctionsdemo. \n \n")
+cat("The data are called geese1demo, sourcesdemo, correctionsdemo \n")
+cat("and concdepdemo. \n \n")
 cat("This example deals with data with 1 group and 2 isotopes. \n")
 
 cat("Press <Enter> to see the data \n")
@@ -24,6 +25,11 @@ readline()
 invisible()
 cat("\n The fraction correction data is called correctionsdemo: \n")
 print(correctionsdemo)
+cat("Press <Enter> to continue... \n")
+readline()
+invisible()
+cat("\n The concentration depdendence data is called concdepdemo: \n")
+print(concdepdemo)
 cat("Press <Enter> to continue... \n")
 readline()
 invisible()
@@ -68,7 +74,7 @@ cat("Press <Enter> to run the model \n")
 readline()
 invisible()
 
-out <- siarmcmcdirichlet(geese1demo,sourcesdemo,correctionsdemo)
+out <- siarmcmcdirichletv4(geese1demo,sourcesdemo,correctionsdemo,concdepdemo)
 out <- out$output
 
 cat("Press <Enter> to continue \n")
@@ -115,7 +121,7 @@ for(j in 1:numsources) {
         lines(c(Ans$mids[k]+(j/((numsources+1)/2)-1)*halfwidth,Ans$mids[k]+(j/((numsources+1)/2)-1)*halfwidth),c(0,Ans$density[k]),col=j,lwd=(numsources+1)/2,lend=1)
     }
 }
-legend(0.6,12,legend=sourcenames,col=seq(1,5),lty=1,lwd=3,bty="n")
+legend(0.6,15,legend=sourcenames,col=seq(1,5),lty=1,lwd=3,bty="n")
 
 
 cat("Press <Enter> to continue")
@@ -124,11 +130,11 @@ invisible()
 
 cat("With more complicated data sets (see geese2demo), you can fit the model \n")
 cat("to multiple groups and produce different types of plots \n")
-cat("For advanced users, the function siarmcmcdirichlet() will allow runs \n")
+cat("For advanced users, the function siarmcmcdirichletv4() will allow runs \n")
 cat("with different run parameters (such as the number of iterations). \n")
-cat("Type help(siarmcmcdirichlet) for more details. \n \n")
+cat("Type help(siarmcmcdirichletv4) for more details. \n \n")
 
 cat("Good luck using the software. \n")
-cat("Please report bugs to Andrew.Parnell@tcd.ie \n")
+cat("Please report bugs to Andrew.Parnell@ucd.ie \n")
 
 }

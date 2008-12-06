@@ -1,4 +1,4 @@
-siarmcmcdirichlet <- function(data,sources,corrections=0,iterations=200000,burnin=50000,howmany=10000,thinby=15,prior=rep(1,nrow(sources)),siardata=list(SHOULDRUN=FALSE))   
+siarmcmcdirichletv4 <- function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,howmany=10000,thinby=15,prior=rep(1,nrow(sources)),siardata=list(SHOULDRUN=FALSE))   
 {     
         
     if(siardata$SHOULDRUN==FALSE) {
@@ -45,6 +45,11 @@ siarmcmcdirichlet <- function(data,sources,corrections=0,iterations=200000,burni
     } else {
         correctionsdata <- matrix(as.double(as.matrix(corrections[,2:(2*numiso+1)])),nrow=numsources)
     }
+    if(!is.data.frame(concdep)) {
+        concdepdata <- matrix(1,ncol=2*numiso,nrow=numsources) 
+    } else {
+        concdepdata <- matrix(as.double(as.matrix(concdep[,2:(2*numiso+1)])),nrow=numsources)
+    }
 
     BAD <- FALSE
     if(round((siardata$iterations-siardata$burnin)/siardata$thinby)!=(siardata$iterations-siardata$burnin)/siardata$thinby) {
@@ -61,6 +66,10 @@ siarmcmcdirichlet <- function(data,sources,corrections=0,iterations=200000,burni
     }
     if(!is.numeric(correctionsdata[,1])) {
         cat("Error in the corrections file - check this is numeric. \n \n")
+        BAD <- TRUE
+    }
+    if(!is.numeric(concdepdata[,1])) {
+        cat("Error in the concentration dependence file - check this is numeric. \n \n")
         BAD <- TRUE
     }
     if(numgroups>32) {
@@ -80,43 +89,47 @@ siarmcmcdirichlet <- function(data,sources,corrections=0,iterations=200000,burni
                 }
                 BAD <- TRUE
             } 
-            if(numsources*(endgroup[i]-startgroup[i]+1)<numiso) {
-                if(numgroups > 1) {
-                    cat(paste("Group",i,": this is an insoluble problem and thus not suitable for siar. \n"))
-                    cat("The number of isotopes is less than the number of targets times the number of sources. \n")                    
-                } else {
-                    cat(paste("This is an insoluble problem and thus not suitable for siar. \n"))
-                    cat("The number of isotopes is less than the number of targets times the number of sources. \n")
-                }
-                BAD <- TRUE
-            }
-            if(endgroup[i]-startgroup[i]==0) {
-                if(numgroups > 1) {
-                    cat(paste("Group",i,": this is an insoluble problem and thus not suitable for siar. \n"))
-                    cat("Only one observation in group. \n")
-                } else {
-                    cat(paste("This is an insoluble problem and thus not suitable for siar. \n"))
-                    cat("Only one observation in group. \n")
-                }
-                BAD <- TRUE
-            }
+            #if(numsources*(endgroup[i]-startgroup[i]+1)<numiso) {
+            #    if(numgroups > 1) {
+            #        cat(paste("Group",i,": this is an insoluble problem and thus not suitable for siar. \n"))
+            #        cat("The number of isotopes is greater than the number of targets times the number of sources. \n")                    
+            #    } else {
+            #        cat(paste("This is an insoluble problem and thus not suitable for siar. \n"))
+            #        cat("The number of isotopes is greater than the number of targets times the number of sources. \n")
+            #    }
+            #    BAD <- TRUE
+            #}
+            #if(endgroup[i]-startgroup[i]==0) {
+            #    if(numgroups > 1) {
+            #        cat(paste("Group",i,": this is an insoluble problem and thus not suitable for siar. \n"))
+            #        cat("Only one observation in group. \n")
+            #    } else {
+            #        cat(paste("This is an insoluble problem and thus not suitable for siar. \n"))
+            #        cat("Only one observation in group. \n")
+            #    }
+            #    BAD <- TRUE
+            #}
         }
     }
 
+    #print(concdepdata)
+    #print(sources)
+    #print(numiso)
+    #stop()
     if(BAD==FALSE) {
-        tempout <- .C("siarmcmcv3",as.integer(numdata),as.integer(numsources),as.integer(numiso),
+        tempout <- .C("siarmcmcv4",as.integer(numdata),as.integer(numsources),as.integer(numiso),
         as.integer(numgroups),as.integer(startgroup),as.integer(endgroup),as.integer(siardata$iterations),
-        as.integer(siardata$burnin),as.integer(siardata$howmany),as.integer(siardata$thinby),as.double(prior),as.data.frame(data2),
+        as.integer(siardata$burnin),as.integer(siardata$howmany),as.integer(siardata$thinby),as.double(prior),as.data.frame(data2),as.data.frame(concdepdata),
         as.data.frame(sourcedata),as.data.frame(correctionsdata),as.data.frame(parameters))
         #,PACKAGE="siar")
         
         if(numgroups==1) {
-            colnames(tempout[[15]]) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
+            colnames(tempout[[16]]) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
         } else {
-            colnames(tempout[[15]]) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,numiso),sep="")),"G",sep=""),times=numgroups),sort(rep(seq(1,numgroups),times=numsources+numiso)),sep="")
+            colnames(tempout[[16]]) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,numiso),sep="")),"G",sep=""),times=numgroups),sort(rep(seq(1,numgroups),times=numsources+numiso)),sep="")
         }
 
-        return(list(targets=data,sources=sources,corrections=corrections,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=tempout[[4]],numdata=tempout[[1]],numsources=tempout[[2]],numiso=tempout[[3]],SHOULDRUN=TRUE,GRAPHSONLY=FALSE,EXIT=FALSE,SIARSOLO=FALSE,output=tempout[[15]]))
+        return(list(targets=data,sources=sources,corrections=corrections,concdep=concdep,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=tempout[[4]],numdata=tempout[[1]],numsources=tempout[[2]],numiso=tempout[[3]],SHOULDRUN=TRUE,GRAPHSONLY=FALSE,EXIT=FALSE,SIARSOLO=FALSE,output=tempout[[16]]))
 
     } else {
         cat("Problems with inputs: siar has not been run. \n")

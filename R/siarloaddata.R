@@ -83,10 +83,31 @@ while(BADCORRECTIONS == TRUE) {
     }
 }
 
+BADCONCDEP <- TRUE
+while(BADCONCDEP == TRUE) {
+    cat("Now input the name of the concentration dependence file \n")
+    cat("(including the file extension eg .txt, .dat, etc) \n")
+    cat("or leave blank to ignore concentration dependence. \n")
+    CONCDEPFILE <- scan(what="",nlines=1,quiet=TRUE)
+    if(length(CONCDEPFILE)==0) CONCDEPFILE <- -999
+    if(CONCDEPFILE==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
+    if(file.exists(paste(PATH,"/",CONCDEPFILE,sep=""))) {
+        BADCONCDEP <- FALSE
+    } else {
+        if(CONCDEPFILE == -999) {
+            BADCONCDEP <- FALSE
+            concdep <- matrix(0,nrow=1,ncol=1)
+        }
+        if(CONCDEPFILE !=-999) cat("Cannot find this file, check your typing \n")
+    }
+}
+
+
 cat("Now loading in data... \n")
 targets <- as.data.frame(read.table(paste(PATH,"/",DATAFILE,sep=""),header=TRUE))
 sources <- as.data.frame(read.table(paste(PATH,"/",SOURCEFILE,sep=""),header=TRUE))
 if(CORRECTIONSFILE != -999) corrections <- as.data.frame(read.table(paste(PATH,"/",CORRECTIONSFILE,sep=""),header=TRUE))
+if(CONCDEPFILE != -999) concdep <- as.data.frame(read.table(paste(PATH,"/",CONCDEPFILE,sep=""),header=TRUE))
 cat("Done \n \n")
 
 # Finally sort everything out so its in proper siar format
@@ -96,6 +117,7 @@ numsources <-nrow(sources)
 numdata <- nrow(targets)
 numiso <- (ncol(sources)-1)/2
 if(corrections[1,1] == 0) corrections <- matrix(0,nrow=nrow(sources),ncol=2*numiso+1)
+if(concdep[1,1] == 0) concdep <- matrix(0,nrow=nrow(sources),ncol=2*numiso+1)
 SHOULDRUN <- TRUE
 GRAPHSONLY <- FALSE
 EXIT <- FALSE
@@ -160,6 +182,28 @@ while(correctionsexists == FALSE) {
     }
 }
 
+cat("Now please enter the name of the object which contains the concentration \n")
+cat("dependence means and standard deviations. Note: concentration dependence \n")
+cat("standard deviations are currently not supported. Leave blank for no \n")
+cat("concentration depdendence. \n")
+cat("\n")
+concdepexists <- FALSE
+while(concdepexists == FALSE) {
+    concdeptemp <- scan(what="",nlines=1,quiet=TRUE)
+    if(length(concdeptemp)==0) {
+        concdep <- matrix(0,nrow=1,ncol=1)
+        concdepexists <- TRUE
+    } else {
+        if(concdeptemp==0) return(list(EXIT=FALSE,SHOULDRUN=FALSE))
+        if(!exists(concdeptemp)) {
+            cat("Object not found. Try again or Esc to quit. \n")
+        } else {
+            concdep <- get(concdeptemp)
+            concdepexists <- TRUE        
+        }
+    }
+}
+
 # Finally sort everything out so its in proper siar format
 numgroups <- 1
 if(targets[1,1]%%1 == 0) numgroups <- max(targets[,1])
@@ -207,9 +251,15 @@ while(BADOUTPUT == TRUE) {
 load(file=OUTPUTFILE)
 
 # Finally sort everything out so its in proper siar format
+siardata <- NULL
 targets <- siardata$targets
 sources <- siardata$sources
 corrections <- siardata$corrections
+if(exists(siardata$concdep)) {
+    concdep <- siardata$concdep
+} else {
+    concdep <- matrix(1,nrow=1,ncol=1)
+}
 PATH <- siardata$PATH
 numdata <- siardata$numdata
 SHOULDRUN <- siardata$SHOULDRUN
@@ -240,6 +290,6 @@ if(choose2==1 || choose2==2) {
     }
 }
 
-return(list(targets=targets,sources=sources,corrections=corrections,PATH=PATH,TITLE=TITLE,numgroups=numgroups,numdata=numdata,numsources=numsources,numiso=numiso,SHOULDRUN=SHOULDRUN,GRAPHSONLY=GRAPHSONLY,EXIT=EXIT,output=output))
+return(list(targets=targets,sources=sources,corrections=corrections,concdep=concdep,PATH=PATH,TITLE=TITLE,numgroups=numgroups,numdata=numdata,numsources=numsources,numiso=numiso,SHOULDRUN=SHOULDRUN,GRAPHSONLY=GRAPHSONLY,EXIT=EXIT,output=output))
 
 }

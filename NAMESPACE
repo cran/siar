@@ -2,4 +2,4 @@ useDynLib(siar)
 
 import(hdrcde, coda, MASS)
 
-export("siarmenu","panelhist","panelcor","panelcontour","newgraphwindow","siardemo","siarhdrs","siarhistograms","siarmatrixplot","siarmcmcdirichlet","siarsinglegrouprun","siarmultigrouprun","siarproportionbysourceplot","siarsaveoutput","siarloaddata","siarplotdata","geese1demo","geese2demo","sourcesdemo","correctionsdemo","allgroups","siarsolomcmc","siarsolosinglegrouprun","siarsolomultigrouprun","siarelicit","siaraddcross","siarplotdatawrapper","siarplottarget","siarproportionbygroupplot")
+export("siarmenu","panelhist","panelcor","panelcontour","newgraphwindow","siardemo","siarhdrs","siarhistograms","siarmatrixplot","siarmcmcdirichletv4","siarsinglegrouprun","siarmultigrouprun","siarproportionbysourceplot","siarsaveoutput","siarloaddata","siarplotdata","geese1demo","geese2demo","sourcesdemo","correctionsdemo","concdepdemo","allgroups","siarsolomcmcv4","siarsolosinglegrouprun","siarsolomultigrouprun","siarelicit","siaraddcross","siarplotdatawrapper","siarplottarget","siarproportionbygroupplot")

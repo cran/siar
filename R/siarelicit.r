@@ -19,7 +19,7 @@ cat(sourcenames,"\n \n")
 cat("===========================================================================\n")
 cat("Mean proportion estimates. \n")
 cat("===========================================================================\n\n")
-cat("Please first enter your mane estimate of the proportions of each of these \n")
+cat("Please first enter your mean estimate of the proportions of each of these \n")
 cat(" sources separated by a space. (Note: these should add up to 1) \n")
 propsum <- 0
 while(propsum!=1) {
@@ -62,6 +62,6 @@ alphapars <- meanprops*Q
 cat("Dirichlet prior parameters are: \n")
 cat(alphapars)
 cat("\n")
-cat("Please enter these as arguments in the siarmcmcdirichlet function. \n")
+cat("Please enter these as arguments in the siarmcmcdirichletv4 function. \n")
 
 }

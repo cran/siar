@@ -3,7 +3,7 @@
 \title{ Elicit prior parameters for the Dirichlet distribution. }
 \description{
   Allows users to enter mean estimated proportions and a standard deviation term so that useful prior distributions
-  can be enterred into the \code{\link{siarmcmcdirichlet}} function.
+  can be enterred into the \code{\link{siarmcmcdirichletv4}} function.
 }
 \usage{
 siarelicit(siardata)

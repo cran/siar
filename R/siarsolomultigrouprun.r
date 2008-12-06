@@ -49,14 +49,14 @@ if(runchoose == 3) {
     siardata$howmany <- 20000
     siardata$thinby <- 300
 }
-siardata <- siarsolomcmc(data=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,siardata=siardata)
+siardata <- siarsolomcmcv4(data=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,concdep=siardata$concdep,siardata=siardata)
 
 return(siardata)
 
 } else {
 
 cat("This data has only 1 group - choose the single group option instead. \n \n")
-return(list(targets=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=siardata$numgroups,numdata=siardata$numdata,numsources=siardata$numsources,numiso=siardata$numiso,SHOULDRUN=siardata$SHOULDRUN,GRAPHSONLY=siardata$GRAPHSONLY,EXIT=siardata$EXIT,output=siardata$output))
+return(list(targets=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,concdep=siardata$concdep,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=siardata$numgroups,numdata=siardata$numdata,numsources=siardata$numsources,numiso=siardata$numiso,SHOULDRUN=siardata$SHOULDRUN,GRAPHSONLY=siardata$GRAPHSONLY,EXIT=siardata$EXIT,output=siardata$output))
 
 }
 

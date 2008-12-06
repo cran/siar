@@ -21,7 +21,7 @@ siarmenu()
   which parts of the menu system can be accessed.
 }
 
-\seealso{ \code{\link{siarmcmcdirichlet}} }
+\seealso{ \code{\link{siarmcmcdirichletv4}} }
 \examples{
 #siarmenu()
 }

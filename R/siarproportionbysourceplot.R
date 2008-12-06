@@ -34,15 +34,16 @@ siarproportionbysourceplot <- function (siardata, siarversion = 0,
     cat("Plot of proportions by source \n")
     cat("This requires more than one group in the output file. \n")
     cat("Producing plot..... \n \n")
+    
     if (length(siardata$sources) > 0) {
         sourcenames <- as.character(siardata$sources[, 1])
     }
     else {
-    # not sure what this if statement does - ALJ
-        sourcenames <- strsplit(colnames(siardata$output[, ((groupnum - 
-            1) * (siardata$numsources + siardata$numiso) + 1):(groupnum * 
-            (siardata$numsources + siardata$numiso) - siardata$numiso)]), 
-            paste("G", groupnum, sep = ""))
+    ## not sure what this if statement does - ALJ
+      #  sourcenames <- strsplit(colnames(siardata$output[, ((groupnum - 
+      #      1) * (siardata$numsources + siardata$numiso) + 1):(groupnum * 
+      #      (siardata$numsources + siardata$numiso) - siardata$numiso)]), 
+      #      paste("G", groupnum, sep = ""))
     }
     
     if(is.null(grp)){

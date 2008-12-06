@@ -19,8 +19,8 @@ siarproportionbysourceplot(siardata, siarversion=0,probs=c(95,75,50),xlabels=NUL
   \item{clr}{	Determines the set of colours to use for the boxes. Default is greyscale.}
   \item{scl}{ Specifies a proportional scaling factor to increase (scl > 1) or decrease (scl < 1) the default width of lines or boxes. Default = 1.}
   \item{xspc}{ Sets the amount of blank space either side of the first and last (on the x-axis) graphic object.}
-  \item{prn} { If prn=TRUE the values for the defined probability densities (probs) are returned to the command window. Default is prn=FALSE with no such output.}
-  \item{leg} { Determines whether a legend is to be drawn (leg=TRUE) or not (default leg=FALSE). Note, currently only supported for type="lines".}
+  \item{prn}{ If prn=TRUE the values for the defined probability densities (probs) are returned to the command window. Default is prn=FALSE with no such output.}
+  \item{leg}{ Determines whether a legend is to be drawn (leg=TRUE) or not (default leg=FALSE). Note, currently only supported for type="lines".}
 
 }
 \author{ Andrew Parnell }

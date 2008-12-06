@@ -49,14 +49,14 @@ if(runchoose == 3) {
     siardata$howmany <- 20000
     siardata$thinby <- 300
 }
-siardata <- siarmcmcdirichlet(data=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,siardata=siardata)
+siardata <- siarmcmcdirichletv4(data=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,concdep=siardata$concdep,siardata=siardata)
 
 return(siardata)
 
 } else {
 
 cat("This data has multiple groups - choose the multi group option instead. \n \n")
-return(list(targets=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=siardata$numgroups,numdata=siardata$numdata,numsources=siardata$numsources,numiso=siardata$numiso,SHOULDRUN=siardata$SHOULDRUN,GRAPHSONLY=siardata$GRAPHSONLY,EXIT=siardata$EXIT,output=siardata$output))
+return(list(targets=siardata$targets,sources=siardata$sources,corrections=siardata$corrections,concdep=siardata$concdep,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=siardata$numgroups,numdata=siardata$numdata,numsources=siardata$numsources,numiso=siardata$numiso,SHOULDRUN=siardata$SHOULDRUN,GRAPHSONLY=siardata$GRAPHSONLY,EXIT=siardata$EXIT,output=siardata$output))
 
 }
 

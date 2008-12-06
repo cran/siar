@@ -1,11 +1,11 @@
 siarmenu <- function() {
 
-siarversion <-"3.3"
+siarversion <-"4.0"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))
-cat("Author: Andrew Parnell, Trinity College Dublin\n")
-cat("Please report bugs to: Andrew.Parnell@tcd.ie\n")
+cat("Author: Andrew Parnell, University College Dublin\n")
+cat("Please report bugs to: Andrew.Parnell@ucd.ie\n")
 cat("------------------------------- \n")
 cat("\n")
 cat("Useful: Press 0 at a prompt to return to the main menu or Esc to exit. \n \n")
@@ -87,9 +87,9 @@ invisible()
 # Section 4
 if(choose == 4) {
 
-choices2 <- c("Traditional (isosource) plot","*NEW* proportions plot")
+choices2 <- c("Traditional (isosource) plot","SIAR proportions plot")
           
-title2 <- "Traditional or new style plot?"
+title2 <- "Isosource or SIAR style plot?"
 choose2 <- menu(choices2,title = title2)
 if(choose2==1) siarhistograms(siardata,siarversion)
 if(choose2==2) siarproportionbygroupplot(siardata,siarversion)

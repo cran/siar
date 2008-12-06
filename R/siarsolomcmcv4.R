@@ -1,4 +1,4 @@
-siarsolomcmc <- function(data,sources,corrections=0,iterations=200000,burnin=50000,howmany=10000,thinby=15,prior=rep(1,nrow(sources)),siardata=list(SHOULDRUN=FALSE))
+siarsolomcmcv4 <- function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,howmany=10000,thinby=15,prior=rep(1,nrow(sources)),siardata=list(SHOULDRUN=FALSE))
 {
 
     if(siardata$SHOULDRUN==FALSE) {
@@ -45,7 +45,12 @@ siarsolomcmc <- function(data,sources,corrections=0,iterations=200000,burnin=500
     } else {
         correctionsdata <- matrix(as.double(as.matrix(corrections[,2:(2*numiso+1)])),nrow=numsources)
     }
-
+    if(!is.data.frame(concdep)) {
+        concdepdata <- matrix(1,ncol=2*numiso,nrow=numsources) 
+    } else {
+        concdepdata <- matrix(as.double(as.matrix(concdep[,2:(2*numiso+1)])),nrow=numsources)
+    }
+    
     BAD <- FALSE
     if(round((siardata$iterations-siardata$burnin)/siardata$thinby)!=(siardata$iterations-siardata$burnin)/siardata$thinby) {
         cat("Error in iterations, burnin or thinby: (iterations-burnin)/thinby must be an integer. \n \n")
@@ -61,6 +66,10 @@ siarsolomcmc <- function(data,sources,corrections=0,iterations=200000,burnin=500
     }
     if(!is.numeric(correctionsdata[,1])) {
         cat("Error in the corrections file - check this is numeric. \n \n")
+        BAD <- TRUE
+    }
+    if(!is.numeric(concdepdata[,1])) {
+        cat("Error in the concentration dependence file - check this is numeric. \n \n")
         BAD <- TRUE
     }
     if(numgroups>32) {
@@ -79,27 +88,27 @@ siarsolomcmc <- function(data,sources,corrections=0,iterations=200000,burnin=500
                 }
                 BAD <- TRUE
             }
-            if(numsources*(endgroup[i]-startgroup[i]+1)<numiso) {
-                if(numgroups > 1) {
-                    cat(paste("Group",i,": this is an insoluble problem and thus not suitable for siar. \n"))
-                    cat("The number of isotopes is less than the number of targets times the number of sources. \n")
-                } else {
-                    cat(paste("This is an insoluble problem and thus not suitable for siar. \n"))
-                    cat("The number of isotopes is less than the number of targets times the number of sources. \n")
-                }
-                BAD <- TRUE
-            }
+            #if(numsources*(endgroup[i]-startgroup[i]+1)<numiso) {
+            #    if(numgroups > 1) {
+            #        cat(paste("Group",i,": this is an insoluble problem and thus not suitable for siar. \n"))
+            #        cat("The number of isotopes is less than the number of targets times the number of sources. \n")
+            #    } else {
+            #        cat(paste("This is an insoluble problem and thus not suitable for siar. \n"))
+            #        cat("The number of isotopes is less than the number of targets times the number of sources. \n")
+            #    }
+            #    BAD <- TRUE
+            #}
         }
     }
 
     if(BAD==FALSE) {
-        tempout <- .C("siarsolomcmcv3",as.integer(numdata),as.integer(numsources),as.integer(numiso),
+        tempout <- .C("siarsolomcmcv4",as.integer(numdata),as.integer(numsources),as.integer(numiso),
         as.integer(numgroups),as.integer(startgroup),as.integer(endgroup),as.integer(siardata$iterations),
-        as.integer(siardata$burnin),as.integer(siardata$howmany),as.integer(siardata$thinby),as.double(prior),as.data.frame(data2),
+        as.integer(siardata$burnin),as.integer(siardata$howmany),as.integer(siardata$thinby),as.double(prior),as.data.frame(data2),as.data.frame(concdepdata),
         as.data.frame(sourcedata),as.data.frame(correctionsdata),as.data.frame(parameters))
         #,PACKAGE="siar")
 
-        newtempout <- tempout[[15]]
+        newtempout <- tempout[[16]]
 
         if(numgroups==1) {
             colnames(newtempout) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
@@ -119,7 +128,7 @@ siarsolomcmc <- function(data,sources,corrections=0,iterations=200000,burnin=500
         #  newtempout <- newtempout[,goodcols]
         #}
 
-        return(list(targets=data,sources=sources,corrections=corrections,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=tempout[[4]],numdata=tempout[[1]],numsources=tempout[[2]],numiso=tempout[[3]],SHOULDRUN=TRUE,GRAPHSONLY=FALSE,EXIT=FALSE,SIARSOLO=TRUE,output=newtempout))
+        return(list(targets=data,sources=sources,corrections=corrections,concdep=concdep,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=tempout[[4]],numdata=tempout[[1]],numsources=tempout[[2]],numiso=tempout[[3]],SHOULDRUN=TRUE,GRAPHSONLY=FALSE,EXIT=FALSE,SIARSOLO=TRUE,output=newtempout))
 
     } else {
         cat("Problems with inputs: siar has not been run. \n")

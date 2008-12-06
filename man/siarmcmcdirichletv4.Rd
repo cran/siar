@@ -1,12 +1,11 @@
-\name{siarsolomcmc}
-\alias{siarsolomcmc}
-\title{ MCMC for stable isotope data with only single target organisms}
+\name{siarmcmcdirichletv4}
+\alias{siarmcmcdirichletv4}
+\title{ MCMC for stable isotope data }
 \description{
-  Runs an MCMC on stable isotope data from certain organisms to determine their dietary habits. This version requires 
-  only a single target organism per group
+  Runs an MCMC on stable isotope data from certain organisms to determine their dietary habits.
 }
 \usage{
-siarsolomcmc(data, sources, corrections = 0, iterations=200000, burnin=50000, howmany=10000, thinby=15, prior = rep(1, nrow(sources)), siardata=list(SHOULDRUN=FALSE))
+siarmcmcdirichletv4(data, sources, corrections = 0, concdep = 0, iterations=200000, burnin=50000, howmany=10000, thinby=15, prior = rep(1, nrow(sources)), siardata=list(SHOULDRUN=FALSE))
 }
 \arguments{
    \item{data}{ A matrix with each food source as a seperate row and each isotope as a seperate column.}
@@ -14,6 +13,9 @@ siarsolomcmc(data, sources, corrections = 0, iterations=200000, burnin=50000, ho
   values for each of the isotopes. Also allows corrections = 0 for pre-corrected data. }
   \item{corrections}{ A matrix containing the mean and standard deviations of the fractional correction
   values for each of the isotopes. Also allows corrections = 0 for pre-corrected data.}
+  \item{concdep}{ A matrix containing the mean and standard deviations of the concentration dependence
+  values for each of the isotopes. Also allows concdep = 0 for data with no required concentration dependence. Note that 
+  version 4.0 does not use the standard deviations.}
   \item{iterations}{ The number of iterations to run. }
   \item{burnin}{ The size of the burnin }
   \item{howmany}{ How often to report the number of iterations. }
@@ -27,14 +29,12 @@ siarsolomcmc(data, sources, corrections = 0, iterations=200000, burnin=50000, ho
 \details{
   The model assumes that each target value comes from a Gaussian distribution with an unknown mean and standard 
   deviation. The structure of the mean is a weighted combination of the food sources' isotopic 
-  values. The proportional weights are of key interest and are given a Dirichlet prior distribution. The 
+  values. The weights are made up dietary proportions (which are given a Dirichlet prior distribution) and the
+  concentration depdendencies given for the different food sources. The 
   standard deviation is divided up between the uncertainty around the fractionation corrections (if 
   corrections are given) and the natural variability between target individuals within a defined group 
   (or between all individuals if no grouping structure is specified). The default iterations numbers work well 
   for the demo data sets, but advanced users will want to adjust them to suit their analysis. 
-  
-  Note that this version is analagous to the Moore and Semmens (2008) MixSIR model except with a Dirichlet prior
-  distribution.
 }
 \value{
   A parameter matrix consisting of (iterations-burnin)/thinby rows with numgroups*(numsources+numiso) 
@@ -44,14 +44,13 @@ siarsolomcmc(data, sources, corrections = 0, iterations=200000, burnin=50000, ho
   each isotope. This format repeats across rows to each group. The parameters may then subsequently be 
   used for plotting, convergence checks, summaries, etc, etc.
 }
-\references{ 
-Moore and Semmens (2008), Incorporating uncertainty and prior information into stable isotope mixing models, 
-Ecology Letters.
-}
+\references{ }
 \author{ Andrew Parnell }
 \note{ }
 \seealso{ \code{\link{siarmenu}}, \code{\link{siarelicit}} }
 \examples{
+# Should take around 10 seconds to run
+#out <- siarmcmcdirichletv4(geese1demo,sourcesdemo,correctionsdemo,concdepdemo)
 }
 \keyword{ programming }
 \keyword{ models }
