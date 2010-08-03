@@ -1,4 +1,5 @@
-siarplotdata <- function (siardata, siarversion = 0, grp = 1:siardata$numgroups,
+siarplotdata <-
+function (siardata, siarversion = 0, grp = 1:siardata$numgroups,
     panel = NULL, isos = c(0, 0), leg = 1)
 {
     
@@ -20,3 +21,4 @@ siarplotdata <- function (siardata, siarversion = 0, grp = 1:siardata$numgroups,
         siarplotdatawrapper(siardata, siarversion, grp, panel, isos, leg2 = leg)
     }
 }
+

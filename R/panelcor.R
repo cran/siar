@@ -1,4 +1,5 @@
-panelcor <- function(x, y, digits=2, prefix="", cex.cor, ...)
+panelcor <-
+function(x, y, digits=2, prefix="", cex.cor, ...)
 {
      usr <- par("usr"); on.exit(par(usr))
      par(usr = c(0, 1, 0, 1))
@@ -8,3 +9,4 @@ panelcor <- function(x, y, digits=2, prefix="", cex.cor, ...)
      if(missing(cex.cor)) cex <- 0.8/strwidth(txt)
      text(0.5, 0.5, txt, cex = cex * abs(r))
 }
+

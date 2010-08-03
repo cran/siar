@@ -1,4 +1,5 @@
-siarmatrixplot <- function(siardata,siarversion=0) {
+siarmatrixplot <-
+function(siardata,siarversion=0) {
 
 if(siardata$SHOULDRUN==FALSE && siardata$GRAPHSONLY==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -74,3 +75,4 @@ if(length(siardata$TITLE) > 0) {
 if(siarversion>0) mtext(paste("siar v",siarversion),side=1,line=4,adj=1,cex=0.6)
 
 }
+

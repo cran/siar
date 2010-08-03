@@ -1,4 +1,5 @@
-siarsaveoutput <- function(siardata) {
+siarsaveoutput <-
+function(siardata) {
 
 if(siardata$SHOULDRUN==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -64,3 +65,4 @@ while(BADFILE == TRUE) {
 
 
 }
+

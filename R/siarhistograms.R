@@ -1,4 +1,5 @@
-siarhistograms <- function(siardata,siarversion=0) {
+siarhistograms <-
+function(siardata,siarversion=0) {
 
 if(siardata$SHOULDRUN==FALSE && siardata$GRAPHSONLY==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -106,3 +107,4 @@ if(siardata$TITLE!="SIAR data") {
 
 
 }
+

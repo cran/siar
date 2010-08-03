@@ -1,4 +1,5 @@
-siarproportionbysourceplot <- function (siardata, siarversion = 0,
+siarproportionbysourceplot <-
+function (siardata, siarversion = 0,
         probs=c(95, 75, 50),
         xlabels = NULL,
         grp = NULL,
@@ -150,3 +151,4 @@ readline()
 invisible()
 
 }
+

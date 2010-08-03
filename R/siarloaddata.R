@@ -1,4 +1,5 @@
-siarloaddata <- function(siarversion) {
+siarloaddata <-
+function(siarversion) {
 
 choices2 <- c("Load data in from files","Load in R objects","Load in previous output")
 title <- "The available options are:"
@@ -293,3 +294,4 @@ if(choose2==1 || choose2==2) {
 return(list(targets=targets,sources=sources,corrections=corrections,concdep=concdep,PATH=PATH,TITLE=TITLE,numgroups=numgroups,numdata=numdata,numsources=numsources,numiso=numiso,SHOULDRUN=SHOULDRUN,GRAPHSONLY=GRAPHSONLY,EXIT=EXIT,output=output))
 
 }
+

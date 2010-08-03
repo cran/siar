@@ -11,10 +11,6 @@ siardemo(siarversion = 0)
 \arguments{
   \item{siarversion}{ Not required }
 }
-\details{
-}
-\value{
-}
 \author{ Andrew Parnell }
 \keyword{ programming}
 \keyword{ models}

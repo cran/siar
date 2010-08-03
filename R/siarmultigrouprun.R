@@ -1,4 +1,5 @@
-siarmultigrouprun <- function(siardata) {
+siarmultigrouprun <-
+function(siardata) {
 # This function runs the multi group MCMC for siar
 
 if(siardata$SHOULDRUN==FALSE || siardata$GRAPHSONLY ==TRUE) {
@@ -61,3 +62,4 @@ return(list(targets=siardata$targets,sources=siardata$sources,corrections=siarda
 }
 
 }
+

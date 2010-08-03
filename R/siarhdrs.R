@@ -1,4 +1,5 @@
-siarhdrs <- function(siardata) {
+siarhdrs <-
+function(siardata) {
 
 if(siardata$SHOULDRUN==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -82,3 +83,4 @@ cat("If lots of the p-values are very small, try a longer run of the MCMC. \n")
 
 
 }
+

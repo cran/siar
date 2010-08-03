@@ -1,4 +1,5 @@
-siarproportionbygroupplot <- function (siardata, siarversion = 0, probs = c(95, 75, 50), xlabels = NULL, 
+siarproportionbygroupplot <-
+function (siardata, siarversion = 0, probs = c(95, 75, 50), xlabels = NULL, 
     grp = NULL, type = "boxes", clr = gray((9:1)/10), scl = 1, 
     xspc = 0.5, prn = FALSE, leg = FALSE) 
 {   
@@ -118,3 +119,4 @@ siarproportionbygroupplot <- function (siardata, siarversion = 0, probs = c(95, 
     readline()
     invisible()
 }
+

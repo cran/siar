@@ -44,9 +44,7 @@ siarmcmcdirichletv4(data, sources, corrections = 0, concdep = 0, iterations=2000
   each isotope. This format repeats across rows to each group. The parameters may then subsequently be 
   used for plotting, convergence checks, summaries, etc, etc.
 }
-\references{ }
 \author{ Andrew Parnell }
-\note{ }
 \seealso{ \code{\link{siarmenu}}, \code{\link{siarelicit}} }
 \examples{
 # Should take around 10 seconds to run

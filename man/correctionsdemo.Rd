@@ -17,12 +17,6 @@
     \item{\code{Sd13C}}{The standard deviation correction value for 13C}
   }
 }
-\details{
-}
-\source{
-}
-\references{
-}
 \examples{
 #see siarmenu() and option 9 for a demo using this data
 }

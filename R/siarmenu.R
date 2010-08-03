@@ -1,4 +1,5 @@
-siarmenu <- function() {
+siarmenu <-
+function() {
 
 siarversion <-"4.0"
 
@@ -169,3 +170,4 @@ siardata$EXIT=TRUE
 }
 
 }
+

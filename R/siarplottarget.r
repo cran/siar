@@ -1,4 +1,5 @@
-siarplottarget <- function(siardata, isox, isoy, a, grps) {
+siarplottarget <-
+function(siardata, isox, isoy, a, grps) {
         pchseq <- c(1:2, 4:20)
         for (j in 1:nrow(siardata$targets)) {
             if (siardata$numgroups != 1 & !is.null(grps)) {
@@ -20,3 +21,4 @@ siarplottarget <- function(siardata, isox, isoy, a, grps) {
             }
         }
     }
+

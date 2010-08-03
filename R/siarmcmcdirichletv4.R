@@ -1,4 +1,5 @@
-siarmcmcdirichletv4 <- function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,howmany=10000,thinby=15,prior=rep(1,nrow(sources)),siardata=list(SHOULDRUN=FALSE))   
+siarmcmcdirichletv4 <-
+function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,howmany=10000,thinby=15,prior=rep(1,nrow(sources)),siardata=list(SHOULDRUN=FALSE))   
 {     
         
     if(siardata$SHOULDRUN==FALSE) {
@@ -113,7 +114,7 @@ siarmcmcdirichletv4 <- function(data,sources,corrections=0,concdep=0,iterations=
     }
 
     #print(concdepdata)
-    #print(sources)
+    #print(sourcedata)
     #print(numiso)
     #stop()
     if(BAD==FALSE) {
@@ -138,3 +139,4 @@ siarmcmcdirichletv4 <- function(data,sources,corrections=0,concdep=0,iterations=
         
    
 }
+

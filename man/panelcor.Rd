@@ -16,11 +16,6 @@ panelcor(x, y, digits = 2, prefix = "", cex.cor, ...)
   \item{cex.cor}{ Multiplier for the size of the text on the plot }
   \item{\dots}{ Other arguments }
 }
-\details{
-}
-\value{
-}
-\references{  }
 \author{ Unknown }
 \keyword{ programming}
 \keyword{ models}

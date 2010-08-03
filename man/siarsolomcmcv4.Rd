@@ -53,10 +53,7 @@ Moore and Semmens (2008), Incorporating uncertainty and prior information into s
 Ecology Letters.
 }
 \author{ Andrew Parnell }
-\note{ }
 \seealso{ \code{\link{siarmenu}}, \code{\link{siarelicit}} }
-\examples{
-}
 \keyword{ programming }
 \keyword{ models }
 \keyword{ multivariate }

@@ -19,12 +19,6 @@
     \item{\code{d13CCe}}{d13C cells}
   }
 }
-\details{
-}
-\source{
-}
-\references{
-}
 \examples{
 #see siarmenu() and option 9 for a demo using part of this data
 }

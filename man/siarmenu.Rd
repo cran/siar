@@ -7,10 +7,7 @@
 \usage{
 siarmenu()
 }
-\references{ }
 \author{ Andrew Parnell }
-\note{
-}
 \details{
   The internal workings of this function uses a list called siardata containing some or all of the following parts: 
   targets, sources, corrections, PATH, TITLE, numgroups, numdata, numsources, numiso, SHOULDRUN, GRAPHSONLY, 

@@ -13,10 +13,6 @@ panelcontour(x, y, ...)
   \item{y}{ A numeric vector containing data with which to produce a contour plot }
   \item{\dots}{ Other arguments }
 }
-\details{
-}
-\value{
-}
 \author{ Andrew Parnell }
 \keyword{ programming}
 \keyword{ models}

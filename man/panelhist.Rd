@@ -12,12 +12,5 @@ panelhist(x, ...)
   \item{x}{ A numeric vector containing data over which to compute a histogram }
   \item{\dots}{ Other arguments }
 }
-\details{
-
-}
-\value{
-}
-\references{  }
 \author{ Uknown }
-\note{ }
 \keyword{ programming }

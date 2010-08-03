@@ -16,12 +16,6 @@
     \item{\code{SDd13C}}{d13C standard deviation}    
   }
 }
-\details{
-}
-\source{
-}
-\references{
-}
 \examples{
 #see siarmenu() and option 9 for a demo using this data
 }

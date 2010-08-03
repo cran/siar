@@ -14,12 +14,6 @@
     \item{\code{d13CPl}}{The d13C plasma value}
   }
 }
-\details{
-}
-\source{
-}
-\references{
-}
 \examples{
 #see siarmenu() and option 9 for a demo using similar data
 }

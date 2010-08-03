@@ -1,4 +1,5 @@
-siarplotdatawrapper <- function(siardata, siarversion = 0, grp = NULL, panel = NULL,
+siarplotdatawrapper <-
+function(siardata, siarversion = 0, grp = NULL, panel = NULL,
         isos = c(1, 2),leg2 = NULL) {
         if (!is.null(panel) & is.null(grp)) {
             warning(cat("WARNING. grp set to ALL and panel set to a value.\n Overriding your panel selection and setting to panel=NULL.\n In order to plot all groups on seperate panels please call\n grp=1:siardata$numgroups and panel=1 or panel=c(r,c)\n to specify number of rows and columns"))
@@ -126,3 +127,4 @@ siarplotdatawrapper <- function(siardata, siarversion = 0, grp = NULL, panel = N
                 rep("grey50", length(grp))), bty = "n")
         }
     }
+

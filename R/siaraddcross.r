@@ -1,4 +1,5 @@
-siaraddcross <- function(x = NULL, ex = NULL, y = NULL, ey = NULL,
+siaraddcross <-
+function(x = NULL, ex = NULL, y = NULL, ey = NULL,
         clr = "grey50", upch = 21) {
         points(x, y, col = clr, pch = upch)
         if (!is.null(ex)) {
@@ -8,3 +9,4 @@ siaraddcross <- function(x = NULL, ex = NULL, y = NULL, ey = NULL,
             lines(c(x, x), c(y - ey, y + ey), col = clr)
         }
     }
+
