@@ -23,5 +23,6 @@ export(
 "siarplotdatawrapper",
 "siarsolosinglegrouprun",
 "siarsolomultigrouprun",
-"siarsolomcmcv4"
+"siarsolomcmcv4",
+"siarelicit"
 )

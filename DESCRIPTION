@@ -1,8 +1,8 @@
 Package: siar
 Type: Package
 Title: Stable Isotope Analysis in R
-Version: 4.0.1
-Date: 2010-08-03
+Version: 4.0.2
+Date: 2010-09-03
 Depends: hdrcde, coda, MASS, bayesm, mnormt, spatstat
 Author: Andrew Parnell and Andrew Jackson
 Maintainer: Andrew Parnell <Andrew.Parnell@ucd.ie>
@@ -12,6 +12,6 @@ Description: This package takes data on organism isotopes and fits a
         mean. See siardemo() for an example.
 License: GPL (>= 2)
 LazyLoad: yes
-Packaged: 2010-08-05 09:03:45 UTC; aparnell
+Packaged: 2010-09-03 13:41:06 UTC; aparnell
 Repository: CRAN
-Date/Publication: 2010-08-05 10:31:22
+Date/Publication: 2010-09-03 19:38:38
