@@ -1,7 +1,7 @@
 siarmenu <-
 function() {
 
-siarversion <-"4.0.2"
+siarversion <-"4.1"
 
 cat("------------------------------- \n")
 cat(paste("Welcome to Stable Isotope Analysis in R version", siarversion, "\n"))

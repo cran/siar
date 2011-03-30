@@ -1,4 +1,5 @@
-siarelicit <- function(siardata) {
+siarelicit <-
+function(siardata) {
 
 if(siardata$SHOULDRUN==FALSE || siardata$GRAPHSONLY ==TRUE) {
     cat("You must load in some data first (via option 1) in order to use this feature of the program. \n")
@@ -65,3 +66,4 @@ cat("\n")
 cat("Please enter these as arguments in the siarmcmcdirichletv4 function. \n")
 
 }
+

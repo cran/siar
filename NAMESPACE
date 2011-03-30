@@ -2,11 +2,20 @@ useDynLib(siar)
 
 export(
 "siarmenu",
+"bayesMVN",
+"bayestwoNorm",
+"convexhull",
+"hullarea",
+"laymanmetrics",
+"overlap",
 "panelhist",
 "panelcor",
 "panelcontour",
+"plotSigmaEllipse",
+"popSEA",
 "newgraphwindow",
 "siardemo",
+"siardensityplot",
 "siarhdrs",
 "siarhistograms",
 "siarmatrixplot",
@@ -24,5 +33,8 @@ export(
 "siarsolosinglegrouprun",
 "siarsolomultigrouprun",
 "siarsolomcmcv4",
-"siarelicit"
+"siarelicit",
+"siber.ellipses",
+"siber.hull.metrics",
+"standard.ellipse"
 )

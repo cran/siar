@@ -1,4 +1,5 @@
-siardemo <- function(siarversion=0) {
+siardemo <-
+function(siarversion=0) {
 
 cat("==================== Demo ==================== \n \n")
 cat("This is a simple demo using the Geese data provided \n")
@@ -10,8 +11,8 @@ cat("This example deals with data with 1 group and 2 isotopes. \n")
 
 geese1demo <- matrix(c(10.22,10.37,10.44,10.52,10.19,10.45,9.91,11.27,9.34,-11.36,-11.88,-10.6,-11.25,-11.66,-10.41,-10.88,-14.73,-11.52),ncol=2,nrow=9)
 colnames(geese1demo) <- c("d15NPl","d13CPl")
-sourcesdemo <- matrix(c(6.48898447009942,4.4321601032975,11.1926127956759,9.8162797508688,1.45946324319852,2.2680708954525,1.112438464109,0.827103932159427,-11.1702276840033,-30.8798439532492,-11.1709000370306,-14.0570109233264,1.21495615708948,0.641318210364447,1.95933055832669,1.17246767177711),ncol=4,nrow=4)
-sourcesdemo <- data.frame(c("Zostera","Grass","U.lactuca","Enteromorpha"),sourcesdemo)
+sourcesdemo <- matrix(c(6.48898447009942,4.4321601032975,11.1926127956759,9.8162797508688,1.45946324319852,2.2680708954525,1.112438464109,0.827103932159427,-11.1702276840033,-30.8798439532492,-11.1709000370306,-14.0570109233264,1.21495615708948,0.641318210364447,1.95933055832669,1.17246767177711),ncol=4,nrow=4)
+sourcesdemo <- data.frame(c("Zostera","Grass","U.lactuca","Enteromorpha"),sourcesdemo)
 colnames(sourcesdemo) <- c("Sources","Meand15N","SDd15N","Meand13C","SDd13C")
 correctionsdemo <- matrix(c(rep(3.54,4),rep(0.74,4),rep(1.63,4),rep(0.63,4)),ncol=4,nrow=4)
 correctionsdemo <- data.frame(c("Zostera","Grass","U.lactuca","Enteromorpha"),correctionsdemo)
@@ -149,3 +150,4 @@ cat("Good luck using the software. \n")
 cat("Please report bugs to Andrew.Parnell@ucd.ie \n")
 
 }
+
