@@ -42,7 +42,9 @@ b <- sqrt(eig$values[2])
 ac <- a*sqrt((n-1)/(n-2))
 bc <- b*sqrt((n-1)/(n-2))
 
-theta <- asin(eig$vectors[1,2]) #atan(eig$vectors[1,2]/eig$vectors[1,1])
+# NB this is the line causing odd ellipses to be drawn occasionally
+#theta <- asin(eig$vectors[1,2]) # OLD LINE #
+theta <- sign(CM[1,2]) * asin(abs(eig$vectors[2,1])) # NEW LINE 11/07/2011
 
 SEA <- pi*a*b
 
