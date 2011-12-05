@@ -208,8 +208,7 @@ for(i=0;i<N;i++) {
 		    element is 1 */ factor = a[c][c];
 		if (fabs(factor) <= eps)
 		{
-			Rprintf("singular matrix\n");
-			exit(0);
+			error("singular matrix\n");
 		} for (j = c; j < N; j++)
 		{
 			a[c][j] /= factor;

@@ -26,7 +26,8 @@ function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,how
     numiso <- (ncol(sources)-1)/2
 
     if(ncol(data)==numiso+1) {
-        data2 <- data[,2:3]
+        data2 <- data[, 2:(numiso+1)]
+	#data2 <- data[,2:3]
         numgroups <- max(data[,1])
         startgroup <- as.vector(c(0,cumsum(table(data[,1])))+1)[1:numgroups]
         endgroup <- as.vector(cumsum(table(data[,1])))
@@ -79,16 +80,16 @@ function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,how
     }
 
     # Finally, sort out the deterministic problems from the others
-    for(i in 1:numgroups) {
-        for(j in startgroup[i]:endgroup[i]) {
-            if(numsources*(endgroup[i]-startgroup[i]+1)==numiso) {
-                if(numgroups>1) {
-                    cat(paste("Group",i,": this is a deterministic problem and thus not suitable for siar. \n"))
-                } else {
-                    cat("This is a deterministic problem and thus not suitable for siar. \n")
-                }
-                BAD <- TRUE
-            }
+    #for(i in 1:numgroups) {
+    #    for(j in startgroup[i]:endgroup[i]) {
+    #        if(numsources*(endgroup[i]-startgroup[i]+1)==numiso) {
+    #            if(numgroups>1) {
+    #                cat(paste("Group",i,": this is a deterministic problem and thus not suitable for siar. \n"))
+    #            } else {
+    #                cat("This is a deterministic problem and thus not suitable for siar. \n")
+    #            }
+    #            BAD <- TRUE
+    #        }
             #if(numsources*(endgroup[i]-startgroup[i]+1)<numiso) {
             #    if(numgroups > 1) {
             #        cat(paste("Group",i,": this is an insoluble problem and thus not suitable for siar. \n"))
@@ -99,8 +100,8 @@ function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,how
             #    }
             #    BAD <- TRUE
             #}
-        }
-    }
+    #    }
+    #}
 
     if(BAD==FALSE) {
         tempout <- .C("siarsolomcmcv4",as.integer(numdata),as.integer(numsources),as.integer(numiso),
