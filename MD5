@@ -1,4 +1,4 @@
-8df7f37d705aa094535c221786d5cd3f *DESCRIPTION
+48abf04c9503e7b297de00eacca46d2c *DESCRIPTION
 d253c52897463129b24babf297dc4633 *NAMESPACE
 6eb1c94a2ac6cb3741a053f802e536ea *R/bayesMVN.R
 0fea093d0b7b201df312bd65e0ce7958 *R/bayestwoNorm.R
@@ -20,7 +20,7 @@ e0f76f2f5d1b849d90e5acb9d40b6ccc *R/siardensityplot.R
 190f4da8fbe3b425208d8695d78d367f *R/siarhistograms.R
 23c2e309222a044832aa501f9f98e08a *R/siarloaddata.R
 5ed523cf5a557b0f76135ccc606a9f5f *R/siarmatrixplot.R
-913b3743c581eba7f79d776ff1a522e0 *R/siarmcmcdirichletv4.R
+88dc8b58f546652ac70e5932f47085ba *R/siarmcmcdirichletv4.R
 55665f8c33e4c81c9da9f073d2d4dbd7 *R/siarmenu.R
 3617dd7cc9bff40f5dacf161dd7d09e6 *R/siarmultigrouprun.R
 58190cb8058eec9eb922eda26248d81b *R/siarplotdata.R
@@ -30,7 +30,7 @@ e238ebe2baed18d5a995e6bc0aec5cec *R/siarplotdatawrapper.R
 8eb8da87ff5aff5c22a661135859665a *R/siarproportionbysourceplot.R
 a3773d22ba3e704aab15baee04b45d78 *R/siarsaveoutput.R
 25d55ed3c73403ab9bdafc7bcc510160 *R/siarsinglegrouprun.R
-e98c8a6708a2381f9f1aa38d38ca2b2c *R/siarsolomcmcv4.R
+37930a1a4fed54db7bbdec7392eeaade *R/siarsolomcmcv4.R
 9804f96328df9e56df0d5ac00c965fc1 *R/siarsolomultigrouprun.R
 11aa0bd0b4c3b5b28fb33b441fda3f41 *R/siarsolosinglegrouprun.R
 a3e4117364a29defdd2c588593a05488 *R/siber.ellipses.R

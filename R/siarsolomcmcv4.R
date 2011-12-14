@@ -26,8 +26,9 @@ function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,how
     numiso <- (ncol(sources)-1)/2
 
     if(ncol(data)==numiso+1) {
-        data2 <- data[, 2:(numiso+1)]
+        #data2 <- data[, 2:(numiso+1)]
 	#data2 <- data[,2:3]
+	data2 <- data.matrix(data[, 2:(numiso + 1)])
         numgroups <- max(data[,1])
         startgroup <- as.vector(c(0,cumsum(table(data[,1])))+1)[1:numgroups]
         endgroup <- as.vector(cumsum(table(data[,1])))
