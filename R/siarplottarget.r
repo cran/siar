@@ -21,4 +21,3 @@ function(siardata, isox, isoy, a, grps) {
             }
         }
     }
-

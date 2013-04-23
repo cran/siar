@@ -119,4 +119,3 @@ function (siardata, siarversion = 0, probs = c(95, 75, 50), xlabels = NULL,
     readline()
     invisible()
 }
-

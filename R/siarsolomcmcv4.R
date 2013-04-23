@@ -27,8 +27,8 @@ function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,how
 
     if(ncol(data)==numiso+1) {
         #data2 <- data[, 2:(numiso+1)]
-	#data2 <- data[,2:3]
-	data2 <- data.matrix(data[, 2:(numiso + 1)])
+	      #data2 <- data[,2:3]
+	      data2 <- data.matrix(data[, 2:(numiso + 1)])
         numgroups <- max(data[,1])
         startgroup <- as.vector(c(0,cumsum(table(data[,1])))+1)[1:numgroups]
         endgroup <- as.vector(cumsum(table(data[,1])))
@@ -105,18 +105,20 @@ function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,how
     #}
 
     if(BAD==FALSE) {
-        tempout <- .C("siarsolomcmcv4",as.integer(numdata),as.integer(numsources),as.integer(numiso),
-        as.integer(numgroups),as.integer(startgroup),as.integer(endgroup),as.integer(siardata$iterations),
-        as.integer(siardata$burnin),as.integer(siardata$howmany),as.integer(siardata$thinby),as.double(prior),as.data.frame(data2),as.data.frame(concdepdata),
-        as.data.frame(sourcedata),as.data.frame(correctionsdata),as.data.frame(parameters))
+        tempout <- .C("siarsolomcmcv4",as.integer(numdata),as.integer(numsources),
+                      as.integer(numiso),as.integer(numgroups),as.integer(startgroup),
+                      as.integer(endgroup),as.integer(siardata$iterations),
+                      as.integer(siardata$burnin),as.integer(siardata$howmany),
+                      as.integer(siardata$thinby),as.double(prior),as.double(data2),
+                      as.double(concdepdata),as.double(as.matrix(sourcedata)),
+                      as.double(correctionsdata),as.double(parameters))
         #,PACKAGE="siar")
-
-        newtempout <- tempout[[16]]
-
+        parameters <- matrix(tempout[[16]], ncol = (numsources + numiso) * numgroups,
+                             nrow = (siardata$iterations - siardata$burnin)/siardata$thinby)
         if(numgroups==1) {
-            colnames(newtempout) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
+            colnames(parameters) <- c(sourcenames,paste("SD",seq(1,numiso),sep=""))
         } else {
-            colnames(newtempout) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,numiso),sep="")),"G",sep=""),times=numgroups),sort(rep(seq(1,numgroups),times=numsources+numiso)),sep="")
+            colnames(parameters) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,numiso),sep="")),"G",sep=""),times=numgroups),sort(rep(seq(1,numgroups),times=numsources+numiso)),sep="")
         }
 
         # Get rid of unwanted columns (set to zero)
@@ -131,7 +133,7 @@ function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,how
         #  newtempout <- newtempout[,goodcols]
         #}
 
-        return(list(targets=data,sources=sources,corrections=corrections,concdep=concdep,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=tempout[[4]],numdata=tempout[[1]],numsources=tempout[[2]],numiso=tempout[[3]],SHOULDRUN=TRUE,GRAPHSONLY=FALSE,EXIT=FALSE,SIARSOLO=TRUE,output=newtempout))
+        return(list(targets=data,sources=sources,corrections=corrections,concdep=concdep,PATH=siardata$PATH,TITLE=siardata$TITLE,numgroups=tempout[[4]],numdata=tempout[[1]],numsources=tempout[[2]],numiso=tempout[[3]],SHOULDRUN=TRUE,GRAPHSONLY=FALSE,EXIT=FALSE,SIARSOLO=TRUE,output=parameters))
 
     } else {
         cat("Problems with inputs: siar has not been run. \n")
@@ -140,4 +142,3 @@ function(data,sources,corrections=0,concdep=0,iterations=200000,burnin=50000,how
 
 
 }
-

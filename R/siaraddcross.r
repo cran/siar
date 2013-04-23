@@ -9,4 +9,3 @@ function(x = NULL, ex = NULL, y = NULL, ey = NULL,
             lines(c(x, x), c(y - ey, y + ey), col = clr)
         }
     }
-

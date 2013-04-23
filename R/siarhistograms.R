@@ -1,5 +1,5 @@
 siarhistograms <-
-function(siardata,siarversion=0) {
+function(siardata,siarversion=0,legloc='topright') {
 
 if(siardata$SHOULDRUN==FALSE && siardata$GRAPHSONLY==FALSE) {
     cat("You must load in some data first (via option 1) in order to use \n")
@@ -19,7 +19,7 @@ cat("Plots of single groups proportions. \n")
 
 if(siardata$numgroups>1) {
     cat("Enter the group number of the proportions you wish to plot \n")
-    cat("Click on the graph to position the legend... \n")
+    #cat("Click on the graph to position the legend... \n")
     BADGROUP <- TRUE
     while(BADGROUP==TRUE) {
       groupnum <- as.integer(scan(what="",nlines=1,quiet=TRUE))
@@ -60,7 +60,6 @@ for(j in 1:siardata$numsources) {
 
 if(choose==2) {
 
-newgraphwindow()
 if(siardata$TITLE!="SIAR data") {
     if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities for group ",groupnum,sep=""),xlab="proportion",ylab="density")
     if(siardata$numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities",sep=""),xlab="proportion",ylab="density")
@@ -78,14 +77,14 @@ for(j in 1:siardata$numsources) {
     }
 }
 
-legend(locator(1),legend=sourcenames,col=seq(1,siardata$numsources),lty=1,lwd=3,bty="n")
+legend(legloc,legend=sourcenames,col=seq(1,siardata$numsources),lty=1,lwd=3,bty="n")
 
 }
 
 if(choose==1) {
-
+devAskNewPage(ask=TRUE)
+  
 for(j in 1:siardata$numsources) {
-newgraphwindow()
 if(siardata$TITLE!="SIAR data") {
     if(siardata$numgroups > 1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities for group ",groupnum,": ",sourcenames[j],sep=""),xlab="proportion",ylab="density")
     if(siardata$numgroups ==1) plot(1,1,xlim=c(0,1),ylim=c(0,top),type="n",main=paste(siardata$TITLE,": proportion densities: ",sourcenames[j],sep=""),xlab="proportion",ylab="density")
@@ -101,10 +100,8 @@ if(siardata$TITLE!="SIAR data") {
         lines(c(Ans$mids[k]+(j/((siardata$numsources+1)/2)-1)*halfwidth,Ans$mids[k]+(j/((siardata$numsources+1)/2)-1)*halfwidth),c(0,Ans$density[k]),col=j,lwd=(siardata$numsources+1)/2,lend=1)
     }
 }
-
 }
 
 
 
 }
-

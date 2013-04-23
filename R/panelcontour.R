@@ -8,4 +8,3 @@ function(x, y, ...)
      #points(x,y,col="light grey")
      contour(kd,add=TRUE,drawlabels=FALSE,levels=c(kdmax*0.01,kdmax*0.5,kdmax*0.9),col=c("red","blue","green"),...)
 }
-

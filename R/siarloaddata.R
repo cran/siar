@@ -294,4 +294,3 @@ if(choose2==1 || choose2==2) {
 return(list(targets=targets,sources=sources,corrections=corrections,concdep=concdep,PATH=PATH,TITLE=TITLE,numgroups=numgroups,numdata=numdata,numsources=numsources,numiso=numiso,SHOULDRUN=SHOULDRUN,GRAPHSONLY=GRAPHSONLY,EXIT=EXIT,output=output))
 
 }
-

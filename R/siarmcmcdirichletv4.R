@@ -1,4 +1,5 @@
-siarmcmcdirichletv4 <- function (data, sources, corrections = 0, concdep = 0, iterations = 2e+05,
+siarmcmcdirichletv4 <-
+function (data, sources, corrections = 0, concdep = 0, iterations = 2e+05,
     burnin = 50000, howmany = 10000, thinby = 15, prior = rep(1,
         nrow(sources)), siardata = list(SHOULDRUN = FALSE))
 {
@@ -70,20 +71,30 @@ siarmcmcdirichletv4 <- function (data, sources, corrections = 0, concdep = 0, it
         cat("Error: too many groups - take some of the groups out before running. \n")
         BAD <- TRUE
     }
+        
     if (BAD == FALSE) {
+#         tempout <- .C("siarmcmcv4", as.integer(numdata), as.integer(numsources),
+#             as.integer(numiso), as.integer(numgroups), as.integer(startgroup),
+#             as.integer(endgroup), as.integer(siardata$iterations),
+#             as.integer(siardata$burnin), as.integer(siardata$howmany),
+#             as.integer(siardata$thinby), as.double(prior), as.data.frame(data2),
+#             as.data.frame(concdepdata), as.data.frame(sourcedata),
+#             as.data.frame(correctionsdata), as.data.frame(parameters))
         tempout <- .C("siarmcmcv4", as.integer(numdata), as.integer(numsources),
-            as.integer(numiso), as.integer(numgroups), as.integer(startgroup),
-            as.integer(endgroup), as.integer(siardata$iterations),
-            as.integer(siardata$burnin), as.integer(siardata$howmany),
-            as.integer(siardata$thinby), as.double(prior), as.data.frame(data2),
-            as.data.frame(concdepdata), as.data.frame(sourcedata),
-            as.data.frame(correctionsdata), as.data.frame(parameters))
+                      as.integer(numiso), as.integer(numgroups), as.integer(startgroup),
+                      as.integer(endgroup), as.integer(siardata$iterations),
+                      as.integer(siardata$burnin), as.integer(siardata$howmany),
+                      as.integer(siardata$thinby), as.double(prior), as.double(data2),
+                      as.double(concdepdata), as.double(as.matrix(sourcedata)),
+                      as.double(correctionsdata), as.double(parameters))
+        parameters <- matrix(tempout[[16]], ncol = (numsources + numiso) * numgroups,
+                             nrow = (siardata$iterations - siardata$burnin)/siardata$thinby)
         if (numgroups == 1) {
-            colnames(tempout[[16]]) <- c(sourcenames, paste("SD",
+            colnames(parameters) <- c(sourcenames, paste("SD",
                 seq(1, numiso), sep = ""))
         }
         else {
-            colnames(tempout[[16]]) <- paste(rep(paste(c(sourcenames,
+            colnames(parameters) <- paste(rep(paste(c(sourcenames,
                 paste("SD", seq(1, numiso), sep = "")), "G",
                 sep = ""), times = numgroups), sort(rep(seq(1,
                 numgroups), times = numsources + numiso)), sep = "")
@@ -93,7 +104,7 @@ siarmcmcdirichletv4 <- function (data, sources, corrections = 0, concdep = 0, it
             numgroups = tempout[[4]], numdata = tempout[[1]],
             numsources = tempout[[2]], numiso = tempout[[3]],
             SHOULDRUN = TRUE, GRAPHSONLY = FALSE, EXIT = FALSE,
-            SIARSOLO = FALSE, output = tempout[[16]]))
+            SIARSOLO = FALSE, output = parameters))
     }
     else {
         cat("Problems with inputs: siar has not been run. \n")

@@ -5,7 +5,7 @@
     Produces neat and colourful histograms for siar output. 
 }
 \usage{
-siarhistograms(siardata, siarversion)
+siarhistograms(siardata, siarversion=0, legloc='topright')
 }
 \details{
   Not intended for use outside \code{\link{siarmenu}}
@@ -15,6 +15,7 @@ siarhistograms(siardata, siarversion)
   PATH, TITLE, numgroups, numdata, numsources, numiso, SHOULDRUN, GRAPHSONLY, EXIT, and output. For more details
   of these inputs see the \code{\link{siarmenu}} function. }
   \item{siarversion}{ The siar version number as a string. }
+  \item{legloc}{ The location of the legend - see \code{\link{legend}} for plotting choices.}
 }
 \author{ Andrew Parnell }
 \keyword{ programming}

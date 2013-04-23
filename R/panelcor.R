@@ -9,4 +9,3 @@ function(x, y, digits=2, prefix="", cex.cor, ...)
      if(missing(cex.cor)) cex <- 0.8/strwidth(txt)
      text(0.5, 0.5, txt, cex = cex * abs(r))
 }
-

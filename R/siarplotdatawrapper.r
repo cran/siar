@@ -1,6 +1,6 @@
 siarplotdatawrapper <-
 function(siardata, siarversion = 0, grp = NULL, panel = NULL,
-        isos = c(1, 2),leg2 = NULL) {
+        isos = c(1, 2),leg2 = NULL,legloc='topleft') {
         if (!is.null(panel) & is.null(grp)) {
             warning(cat("WARNING. grp set to ALL and panel set to a value.\n Overriding your panel selection and setting to panel=NULL.\n In order to plot all groups on seperate panels please call\n grp=1:siardata$numgroups and panel=1 or panel=c(r,c)\n to specify number of rows and columns"))
             panel <- NULL
@@ -26,7 +26,7 @@ function(siardata, siarversion = 0, grp = NULL, panel = NULL,
             split.screen(panel)
         }
         else {
-            newgraphwindow()
+            #newgraphwindow()
         }
         er <- (siardata$sources[, (2 * isox) + 1]^2 + siardata$corrections[,
             (2 * isox) + 1]^2)^0.5
@@ -77,7 +77,7 @@ function(siardata, siarversion = 0, grp = NULL, panel = NULL,
             }
         }
         if (!is.null(panel)) {
-            close.screen(all = TRUE)
+            close.screen(all.screens = TRUE)
         }
         if (siarversion > 0) {
             mtext(paste("siar v", siarversion), side = 1, line = 4,
@@ -101,7 +101,7 @@ function(siardata, siarversion = 0, grp = NULL, panel = NULL,
                     grp[k])))
                 }
             }
-            legend(locator(1), legend = c(as.character(siardata$sources[,
+            legend(legloc, legend = c(as.character(siardata$sources[,
                 1]), datalabs), lty = c(rep(1, nrow(siardata$sources)),
                 rep(-1, length(grp))), pch = c(rep(15, nrow(siardata$sources)),
                 pchseq[grp]), col = c(seq(1, nrow(siardata$sources)),
@@ -118,7 +118,7 @@ function(siardata, siarversion = 0, grp = NULL, panel = NULL,
                     grp[k])))
                 }
             }
-            newgraphwindow()
+            #newgraphwindow()
             plot(0, 0, "n", xaxt = "n", yaxt = "n", bty = "n")
             legend(0, 0, legend = c(as.character(siardata$sources[,
                 1]), datalabs), lty = c(rep(1, nrow(siardata$sources)),
@@ -127,4 +127,3 @@ function(siardata, siarversion = 0, grp = NULL, panel = NULL,
                 rep("grey50", length(grp))), bty = "n")
         }
     }
-

@@ -22,7 +22,7 @@ colnames(hdrsummary) <- c("Low 95% hdr","High 95% hdr","mode","mean")
 if(length(siardata$targets)>0) {
     sourcenames <- as.character(siardata$sources[,1])
     if(siardata$targets[1,1]%%1!=0) {
-      rownames(hdrsummary) <- c(sourcenames,paste("SD",seq(1,siardata$numiso,sep="")))
+      rownames(hdrsummary) <- c(sourcenames,paste("SD",seq(1,siardata$numiso),sep=""))
     } else {
       rownames(hdrsummary) <- paste(rep(paste(c(sourcenames,paste("SD",seq(1,siardata$numiso),sep="")),"G",sep=""),times=siardata$numgroups),sort(rep(seq(1,siardata$numgroups),times=siardata$numsources+siardata$numiso)),sep="")
     }
@@ -83,4 +83,3 @@ cat("If lots of the p-values are very small, try a longer run of the MCMC. \n")
 
 
 }
-

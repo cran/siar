@@ -21,4 +21,3 @@ function (siardata, siarversion = 0, grp = 1:siardata$numgroups,
         siarplotdatawrapper(siardata, siarversion, grp, panel, isos, leg2 = leg)
     }
 }
-

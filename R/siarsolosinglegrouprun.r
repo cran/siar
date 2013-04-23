@@ -62,4 +62,3 @@ return(list(targets=siardata$targets,sources=siardata$sources,corrections=siarda
 }
 
 }
-

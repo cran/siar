@@ -8,4 +8,3 @@ function(x, ...)
     y <- h$counts; y <- y/max(y)
     rect(breaks[-nB], 0, breaks[-1], y, col="blue", border="blue", ...)
 }
-

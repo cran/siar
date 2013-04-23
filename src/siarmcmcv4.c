@@ -5,7 +5,7 @@
 #include<R.h>
 #include<Rmath.h>
 
-void siarmcmcv4(int *numdata,int *numplants,int *numiso,int *numgroups,int *startat, int *endat, int *iterations,int *burnin,int *howmany,int *thinby, double *prior, double **data, double **concdep, double **plants, double **corrections,double **pars) 
+void siarmcmcv4(int *numdata,int *numplants,int *numiso,int *numgroups,int *startat, int *endat, int *iterations,int *burnin,int *howmany,int *thinby, double *prior, double *data, double *concdep, double *plants, double *corrections,double *pars) 
 {
 
 //////////////////////////// INPUTS ///////////////////////////////
@@ -32,22 +32,11 @@ int groupsize;
 // Read in each in turn from the data
 // No idea why this has to start at i+3!
 int i,j,k=-20;
-for(i=0;i<*numdata;i++) {
-    for(j=0;j<*numiso;j++) thedatabig[i][j] = data[j][i+3];
-}
-for(i=0;i<*numplants;i++) {
-    for(j=0;j<*numiso*2;j++) q[i][j] = concdep[j][i+3];
-}
-for(i=0;i<*numplants;i++) {
-    for(j=0;j<*numiso*2;j++) theplants[i][j] = plants[j][i+3];
-}
-for(i=0;i<*numplants;i++) {
-    for(j=0;j<2*(*numiso);j++) thecorrections[i][j] = corrections[j][i+3];
-}
-for(i=0;i<(*iterations-*burnin)/(*thinby);i++) {
-    for(j=0;j<(*numgroups)*(*numiso+*numplants);j++)
-        theparameters[i][j] = pars[j][i+3];
-}
+for(i=0;i<*numdata;i++) for(j=0;j<*numiso;j++) thedatabig[i][j] = data[j*(*numdata)+i];
+for(i=0;i<*numplants;i++) for(j=0;j<*numiso*2;j++) q[i][j] = concdep[j*(*numplants)+i];
+for(i=0;i<*numplants;i++) for(j=0;j<*numiso*2;j++) theplants[i][j] = plants[j*(*numplants)+i];
+for(i=0;i<*numplants;i++) for(j=0;j<2*(*numiso);j++) thecorrections[i][j] = corrections[j*(*numplants)+i];
+for(i=0;i<(*iterations-*burnin)/(*thinby);i++) for(j=0;j<(*numgroups)*(*numiso+*numplants);j++) theparameters[i][j] = 0.0;
 
 // Loop through groups here
 int m;
@@ -224,7 +213,7 @@ for(i=0;i<*iterations+1;i++) {
 // Sort out the iterations
 for(i=0;i<(*iterations-*burnin)/(*thinby);i++) {
     for(j=0;j<(*numgroups)*(*numiso+*numplants);j++)
-        pars[j][i+3] = theparameters[i][j];
+        pars[j*((*iterations-*burnin)/(*thinby))+i] = theparameters[i][j];
 }
 
 // Report the timings
